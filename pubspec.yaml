@@ -37,6 +37,8 @@ dependencies:
   cupertino_icons: ^1.0.6
   get: ^4.6.6
   velocity_x: ^4.2.0
+  bloc: ^8.1.4
+  provider: ^6.1.2
 
 dev_dependencies:
   flutter_test:
