@@ -1,4 +1,5 @@
-# It is a Clothing Store management System 
+# It is a Clothing Store Nepstyle
+
 
 A new Flutter project.
 
