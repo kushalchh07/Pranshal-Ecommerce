@@ -1,4 +1,4 @@
-# e_commerce_app
+# It is a Clothing Store management System 
 
 A new Flutter project.
 
