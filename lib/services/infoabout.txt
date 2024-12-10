@@ -1,0 +1,22 @@
+When to Use a Services Folder
+External System Integrations:
+If your app needs to integrate with third-party services, such as Firebase
+, payment gateways, or cloud storage, you can 
+create a services/ layer to abstract those o
+perations.
+
+Business Logic that Doesn't Fit Cleanly in
+ Use Cases:
+Some operations might not fall strictly u
+nder a specific business "use case," but 
+are still important parts of the app. 
+Services can handle things like file uploads,
+ managing app-specific background tasks, or 
+ dealing with external services.
+
+Network and API Management:
+In some cases, you might place code related 
+to API requests, retries, or other asynchronous
+ tasks in a services/ folder. However, note 
+ that when using Clean Architecture, this
+  type of logic generally belongs in the data/ layer (through repositories and data sources), and services/ would be for more high-level interactions.

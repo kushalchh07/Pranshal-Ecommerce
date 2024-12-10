@@ -1,0 +1,2 @@
+In this folder we can place the files that helps us to handle and organize the error related classes and functions and utility functions.
+It’s particularly useful for separating the error-handling logic from the rest of the business logic, making the codebase more structured and maintainable. 

@@ -1,0 +1,10 @@
+This folder is created according to the feature in project for example If we have feature realated to user, 
+folder will have data realted to the user. features may vary project to project,
+
+
+data-> Models->user_model.dart
+    -> repositories->user_repository.dart
+
+presentation->blocs(for state managements)
+            ->screens(for displaying ui)
+            ->widgets( for feature specific widgets)

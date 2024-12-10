@@ -1,0 +1,2 @@
+In this folder we keep the widgets those are reuseable in multiple context,
+such as buttons, cards, specific widgets. textfields. any many more.

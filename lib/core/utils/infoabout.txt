@@ -1,0 +1,2 @@
+In this folder we keep the utility functions and helpers that are used in our project , such as validators, date ad time utils.string manipulation utils, image manipulation utils.
+etc
