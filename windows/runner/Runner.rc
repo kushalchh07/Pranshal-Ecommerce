@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "optimum_folder_structure" "\0"
+            VALUE "FileDescription", "pranshal_ecommerce" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "optimum_folder_structure" "\0"
+            VALUE "InternalName", "pranshal_ecommerce" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2024 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "optimum_folder_structure.exe" "\0"
-            VALUE "ProductName", "optimum_folder_structure" "\0"
+            VALUE "OriginalFilename", "pranshal_ecommerce.exe" "\0"
+            VALUE "ProductName", "pranshal_ecommerce" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

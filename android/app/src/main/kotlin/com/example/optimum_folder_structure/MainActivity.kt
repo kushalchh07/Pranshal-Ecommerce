@@ -1,4 +1,4 @@
-package com.example.optimum_folder_structure
+package com.example.pranshal_ecommerce
 
 import io.flutter.embedding.android.FlutterActivity
 

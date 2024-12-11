@@ -1,4 +1,4 @@
-# optimum_folder_structure
+# pranshal_ecommerce
 
 A new Flutter project.
 
