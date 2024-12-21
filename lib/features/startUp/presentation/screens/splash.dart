@@ -25,10 +25,10 @@ class _SplashScreenState extends State<SplashScreen> {
     // Navigate to Onboarding if first launch or Home if logged in
     if (isLoggedIn) {
       // Delay to simulate splash duration
-      await Future.delayed(const Duration(seconds: 2));
+      await Future.delayed(const Duration(seconds: 3));
       Navigator.pushReplacementNamed(context, AppRouter.home);
     } else {
-      await Future.delayed(const Duration(seconds: 2));
+      await Future.delayed(const Duration(seconds: 3));
       Navigator.pushReplacementNamed(context, AppRouter.onboarding);
     }
   }
@@ -42,18 +42,18 @@ class _SplashScreenState extends State<SplashScreen> {
           children: [
             // Add your logo or splash image
             Image.asset(
-              'assets/images/wallet.png', // Replace with your asset path
+              'assets/startup/pranshal_gif.gif', // Replace with your asset path
               height: 150,
             ),
-            const SizedBox(height: 20),
-            // Add a loading indicator
-            const CircularProgressIndicator(),
-            const SizedBox(height: 20),
-            // Optional text
-            const Text(
-              'Welcome to Pranshal Clothing',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
+            // const SizedBox(height: 20),
+            // // Add a loading indicator
+            // const CircularProgressIndicator(),
+            // const SizedBox(height: 20),
+            // // Optional text
+            // const Text(
+            //   'Welcome to Pranshal Clothing',
+            //   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            // ),
           ],
         ),
       ),
