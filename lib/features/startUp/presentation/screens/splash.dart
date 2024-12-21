@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,6 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     _navigateToNextScreen();
+    log('Splash Screen');
   }
 
   Future<void> _navigateToNextScreen() async {
@@ -43,7 +46,7 @@ class _SplashScreenState extends State<SplashScreen> {
             // Add your logo or splash image
             Image.asset(
               'assets/startup/pranshal_gif.gif', // Replace with your asset path
-              height: 150,
+              // height: 150,
             ),
             // const SizedBox(height: 20),
             // // Add a loading indicator

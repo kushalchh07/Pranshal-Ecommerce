@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'route_guard.dart';
+import '../../../features/startUp/presentation/screens/splash.dart';
 import '../../../features/authentication/presentation/screens/login_screen.dart';
 import '../../../features/authentication/presentation/screens/register_screen.dart';
 import '../../../features/cart/presentation/screens/cart.dart';
 import '../../../features/home/presentation/screens/homepage.dart';
 import '../../../features/startUp/presentation/screens/onboarding.dart';
-import '../../../features/startUp/presentation/screens/splash.dart';
 
 class AppRouter {
   static const String splash = '/splash';
@@ -18,13 +17,13 @@ class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case splash:
-        return AuthGuard.protect(settings, const SplashScreen());
+        return MaterialPageRoute(builder: (_) => const SplashScreen());
       case onboarding:
-        return AuthGuard.protect(settings, const OnboardingScreen());
+        return MaterialPageRoute(builder: (_) => const OnboardingScreen());
       case home:
-        return AuthGuard.protect(settings, const HomeScreen());
+        return MaterialPageRoute(builder: (_) => const HomeScreen());
       case cart:
-        return AuthGuard.protect(settings, const CartScreen());
+        return MaterialPageRoute(builder: (_) => const CartScreen());
       case login:
         return MaterialPageRoute(builder: (_) => const LoginScreen());
       case register:
