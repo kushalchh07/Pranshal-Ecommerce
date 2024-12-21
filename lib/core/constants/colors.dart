@@ -9,10 +9,27 @@ class ColorConverter {
   rgba({required String color}) {}
 }
 
+// #273033
+// #3A4959
+// #607A84
+// #97B6C6
+// #D7E9F4
+// #E8EAE9
+
 ColorConverter convert = ColorConverter();
 
 // Color mainColor = convert.hexColor(color: '#003400');
 // Color mainColor = Colors.teal;
+Color primaryColor = convert.hexColor(color: '#273033');
+Color primaryColor1 = convert.hexColor(color: '#3A4959');
+
+Color primaryColor2 = convert.hexColor(color: '#607A84');
+
+Color primaryColor3 = convert.hexColor(color: '#97B6C6');
+
+Color primaryColor4 = convert.hexColor(color: '#D7E9F4');
+Color primaryColor5 = convert.hexColor(color: '#E8EAE9');
+
 Color secondaryColor = const Color.fromARGB(255, 5, 176, 74);
 Color secondaryColorwithOpasity = const Color(0xffFB7393);
 Color inputFieldColor = convert.hexColor(color: '#FFFFFF');
@@ -28,7 +45,6 @@ Color lightTextColor = const Color(0xFF403930);
 Color darkBackgroundColor = const Color(0xFF2B2B2B);
 Color darkTextColor = const Color(0xFFF3F2FF);
 
-
 Color greyColor = Colors.grey;
 Color lightGrey = Colors.grey[200]!;
 Color lightBackgroundColor = const Color(0xFFFFFFFF);
@@ -39,7 +55,6 @@ Color blackColor = Colors.black;
 Color errorColor = Colors.red;
 Color successColor = Colors.green;
 Color blueColor = const Color.fromARGB(255, 12, 133, 181);
-Color primaryColor = convert.hexColor(color: '#00A6A6');
 Color greenColor = const Color.fromARGB(255, 26, 116, 107);
 Color browncolor = const Color.fromARGB(255, 194, 94, 58);
 Color yellowColor = const Color.fromARGB(255, 198, 163, 47);
@@ -66,5 +81,3 @@ Color myMainText = const Color.fromARGB(255, 0, 52, 0);
 Color myInputBorderColor = const Color.fromARGB(255, 197, 197, 197);
 
 Color myMoneyColor = const Color.fromARGB(255, 24, 162, 92);
-
-
