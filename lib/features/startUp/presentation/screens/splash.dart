@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:pranshal_ecommerce/core/constants/colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/navigation/routes/app_router.dart';
@@ -46,7 +47,7 @@ class _SplashScreenState extends State<SplashScreen> {
             // Add your logo or splash image
             Image.asset(
               'assets/startup/pranshal_gif.gif', // Replace with your asset path
-              // height: 150,
+              height: 150,
             ),
             // const SizedBox(height: 20),
             // // Add a loading indicator
