@@ -25,6 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _isRememberMe = false;
   TextEditingController emailController = TextEditingController();
   TextEditingController passController = TextEditingController();
+  bool _isLoginWithEmailTapped = false;
 
   final formKey = GlobalKey<FormState>();
   @override
@@ -38,18 +39,6 @@ class _LoginScreenState extends State<LoginScreen> {
       _isRememberMe = !_isRememberMe;
     });
   }
-
-  // Future<void> _loadSavedCredentials() async {
-  //   final savedCredentials =
-  //       await SharedPreferencesHelper.getSavedCredentials();
-  //   developer.log('Saved Credentials Email : ${savedCredentials['contact']}');
-
-  //   setState(() {
-  //     emailController.text = savedCredentials['contact'] ?? "";
-  //     passController.text = savedCredentials['password'] ?? "";
-  //     _isRememberMe = savedCredentials['isRememberMe'] ?? "";
-  //   });
-  // }
 
   login() async {}
 
@@ -89,411 +78,202 @@ class _LoginScreenState extends State<LoginScreen> {
           // surfaceTintColor: backgroundColor,
           systemOverlayStyle: const SystemUiOverlayStyle(
             statusBarColor: Colors.transparent,
-            statusBarBrightness: Brightness.dark, // For iOS: (dark icons)
+            statusBarBrightness: Brightness.light, // For iOS: (dark icons)
             statusBarIconBrightness:
-                Brightness.dark, // For Android(M and greater): (dark icons)
+                Brightness.light, // For Android(M and greater): (dark icons)
           ),
           automaticallyImplyLeading: false,
-          leading: IconButton(
-            icon: const Icon(
-              Icons.arrow_back_ios,
-              color: Colors.black,
-            ),
-            onPressed: () {},
-          ),
         ),
-        body: Center(
-          child: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: Padding(
-              padding: const EdgeInsets.only(right: 20, left: 20),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20.0),
-                    child: Image.asset(
-                      'assets/applogo/pranshal.png',
-                      width: Get.width * 0.4,
+        body: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Padding(
+            padding: const EdgeInsets.only(right: 20, left: 20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'assets/applogo/pranshal_bg_removed.png',
+                  width: Get.width * 0.4,
+                ),
+                Container(
+                    width: Get.width * 0.8,
+                    height: 45,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(2),
+                      border: Border.all(color: primaryColor, width: 0.5),
                     ),
-                  ),
-                  Form(
-                    key: formKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Welcome",
-                          style: TextStyle(
-                            fontSize: 23,
-                            fontWeight: FontWeight.w600,
-                            color: myBlack,
+                    child: Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Image.asset(
+                            "assets/icons/email_logo.png",
+                            height: 30,
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10.0),
-                          child: Text(
-                            "Login to your account.",
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w600,
-                              color: textColor,
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: Get.height * 0.02,
-                        ),
-                        TextFormField(
-                          cursorColor: primaryColor,
-                          controller: emailController,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter your phone number';
-                            }
-
-                            return null;
-                          },
-                          textInputAction: TextInputAction.next,
-                          keyboardType: TextInputType.phone,
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(
-                                    20.0), // Set border radius
-                                borderSide: BorderSide(
-                                    color: primaryColor,
-                                    width: 1.0), // Set border color and width
-                              ),
-                              // Optionally, set focused border (when the textfield is focused)
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20.0),
-                                borderSide:
-                                    BorderSide(color: primaryColor, width: 1.0),
-                              ),
-                              // Optionally, set enabled border (when the textfield is enabled but not focused)
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20.0),
-                                borderSide:
-                                    BorderSide(color: primaryColor, width: 1.0),
-                              ),
-                              fillColor: greyColor,
-                              filled: true,
-                              floatingLabelStyle: floatingLabelTextStyle(),
-                              labelStyle: TextStyle(
-                                color: textColor,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500,
-                              ),
-                              labelText: 'Phone Number',
-                              hintText: 'Phone Number'),
-                        ),
-                        SizedBox(
-                          height: Get.height * 0.02,
-                        ),
-                        TextFormField(
-                          cursorColor: secondaryColor,
-                          controller: passController,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter your password';
-                            }
-                            return null;
-                          },
-                          textInputAction: TextInputAction.go,
-                          obscureText: !_showPassword,
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(
-                                    20.0), // Set border radius
-                                borderSide: BorderSide(
-                                    color: primaryColor,
-                                    width: 1.0), // Set border color and width
-                              ),
-                              // Optionally, set focused border (when the textfield is focused)
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20.0),
-                                borderSide:
-                                    BorderSide(color: primaryColor, width: 1.0),
-                              ),
-                              // Optionally, set enabled border (when the textfield is enabled but not focused)
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20.0),
-                                borderSide:
-                                    BorderSide(color: primaryColor, width: 1.0),
-                              ),
-                              fillColor: greyColor,
-                              filled: true,
-                              floatingLabelStyle: floatingLabelTextStyle(),
-                              labelStyle: TextStyle(
-                                color: textColor,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500,
-                              ),
-                              suffixIcon: IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    _showPassword = !_showPassword;
-                                  });
-                                },
-                                icon: (_showPassword)
-                                    ? Icon(
-                                        CupertinoIcons.eye_slash,
-                                        color: blackColor,
-                                      )
-                                    : Icon(
-                                        CupertinoIcons.eye,
-                                        color: blackColor,
-                                      ),
-                              ),
-                              labelText: 'Password',
-                              hintText: 'Password'),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Checkbox(
-                                  fillColor: MaterialStateProperty.resolveWith(
-                                      (states) {
-                                    if (states
-                                        .contains(MaterialState.selected)) {
-                                      return primaryColor; // Border color when checked
-                                    } else if (states
-                                        .contains(MaterialState.disabled)) {
-                                      return whiteColor; // Border color when disabled
-                                    }
-                                    return whiteColor; // Border color when unchecked
-                                  }),
-                                  checkColor: whiteColor,
-                                  value: _isRememberMe,
-                                  onChanged: (value) {
-                                    toggleRememberMe();
-                                  },
-                                ),
-                                Text("Remember Me",
-                                    style: GoogleFonts.inter(
-                                        fontSize: 14,
-                                        color: primaryColor,
-                                        fontWeight: FontWeight.w400)),
-                              ],
-                            ),
-                            TextButton(
-                                onPressed: () {
-                                  // Navigator.of(context).push(MaterialPageRoute(
-                                  //     builder: (context) =>
-                                  //         const ForgetPassword()));
-                                },
-                                child: const Text(
-                                  'Forgot Password?',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                    color: secondaryColor,
-                                  ),
-                                )),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  MaterialButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18)),
-                    height: 52,
-                    color: primaryColor3,
-                    onPressed: login,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Text(
-                          'Login',
-                          style: TextStyle(
-                            color: whiteColor,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  // BlocConsumer<LoginBloc, LoginState>(
-                  //   listener: (context, state) {
-                  //     if (state is LoginGoogleLoginSuccessfulState ||
-                  //         state is LoginSuccessfulState) {
-                  //       SharedPreferences.getInstance().then((prefs) {
-                  //         prefs.setBool('isLoggedIn', true);
-                  //         // Trigger onLoginSuccess callback after successful login
-                  //         widget.onLoginSuccess?.call();
-                  //       });
-                  //     }
-                  //   },
-                  //   builder: (context, state) {
-                  //     if (state is LoginLoadingState) {
-                  //       return const SizedBox(
-                  //           height: 50,
-                  //           width: 50,
-                  //           child: CupertinoActivityIndicator());
-                  //     }
-                  //     return MaterialButton(
-                  //       shape: RoundedRectangleBorder(
-                  //           borderRadius: BorderRadius.circular(18)),
-                  //       height: 52,
-                  //       color: secondaryColor,
-                  //       onPressed: login,
-                  //       child: Row(
-                  //         mainAxisAlignment: MainAxisAlignment.center,
-                  //         children: const [
-                  //           Text(
-                  //             'Login',
-                  //             style: TextStyle(
-                  //               color: whiteColor,
-                  //               fontSize: 18,
-                  //               fontWeight: FontWeight.w600,
-                  //             ),
-                  //           ),
-                  //         ],
-                  //       ),
-                  //     );
-                  //   },
-                  // ),
-                  SizedBox(
-                    height: Get.height * 0.02,
-                  ),
-                  RichText(
-                    text: TextSpan(
-                      text: "Don't Have an Account? ",
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: textColor,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: " Register!",
-                          style: const TextStyle(
-                            color: secondaryColor,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          recognizer: TapGestureRecognizer()..onTap = () {},
-                        ),
-                      ],
-                    ),
-                  ),
-                  Platform.isAndroid
-                      ? const SizedBox(
-                          height: 10,
-                        )
-                      : const SizedBox.shrink(),
-                  Platform.isAndroid
-                      ? SizedBox(
-                          width: Get.width * 0.8,
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Divider(
-                                  color: primaryColor,
-                                  thickness: 2,
-                                  endIndent: 5,
-                                ),
-                              ),
-                              Text(
-                                'OR',
-                                style: GoogleFonts.inter(
-                                  color: myBlack,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              Expanded(
-                                child: Divider(
-                                  color: primaryColor,
-                                  thickness: 2,
-                                  indent: 5,
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                      : const SizedBox.shrink(),
-                  Platform.isAndroid
-                      ? SizedBox(
-                          height: Get.height * 0.012,
-                        )
-                      : const SizedBox.shrink(),
-                  Platform.isAndroid
-                      ? GestureDetector(
-                          onTap: googleLogin,
-                          child: Container(
-                            width: Get.width * 0.8,
-                            height: Get.height * 0.06,
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Colors.black.withOpacity(0.03),
-                                width: 1,
-                              ),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.asset(
-                                  height: 30,
-                                  'assets/startup_images/google.png',
-                                ),
-                                const SizedBox(
-                                  width: 15,
-                                ),
-                                Text(
-                                  'Continue with Google',
-                                  style: GoogleFonts.inter(
-                                    color: myBlack,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        )
-                      : const SizedBox.shrink(),
-                  SizedBox(
-                    height: Get.height * 0.018,
-                  ),
-                  GestureDetector(
-                    onTap: () {},
-                    child: RichText(
-                      text: TextSpan(
-                        text: 'Joining our app means you agree with our ',
-                        style: TextStyle(
-                            color: blackColor,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400),
-                        children: const <TextSpan>[
-                          TextSpan(
-                            text: 'Terms and conditions',
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                              color: secondaryColor, // Make the text blue
-                              decoration:
-                                  TextDecoration.underline, // Add underline
-                            ),
-                          ),
-                          TextSpan(
-                            text: '.',
-                          ),
+                          Text("Login with email.",
+                              style: GoogleFonts.poppins(fontSize: 18)),
                         ],
                       ),
+                    )),
+                const SizedBox(
+                  height: 15,
+                ),
+                SizedBox(
+                  width: Get.width * 0.8,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Divider(
+                          color: primaryColor2,
+                          thickness: 1,
+                          endIndent: 5,
+                        ),
+                      ),
+                      Text(
+                        'OR',
+                        style: GoogleFonts.inter(
+                          color: myBlack,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      Expanded(
+                        child: Divider(
+                          color: primaryColor2,
+                          thickness: 1,
+                          indent: 5,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                Container(
+                    width: Get.width * 0.8,
+                    height: 45,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(2),
+                      border: Border.all(color: primaryColor, width: 0.5),
+                    ),
+                    child: Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Image.asset(
+                            "assets/icons/google_logo.png",
+                            height: 30,
+                          ),
+                          Text("Continue with Google.",
+                              style: GoogleFonts.poppins(fontSize: 18)),
+                        ],
+                      ),
+                    )),
+                const SizedBox(
+                  height: 15,
+                ),
+                Container(
+                    width: Get.width * 0.8,
+                    height: 45,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(2),
+                      border: Border.all(color: primaryColor, width: 0.5),
+                    ),
+                    child: Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Image.asset(
+                            "assets/icons/facebook_logo.png",
+                            height: 30,
+                          ),
+                          Text("Continue with Facebook.",
+                              style: GoogleFonts.poppins(fontSize: 18)),
+                        ],
+                      ),
+                    )),
+                const SizedBox(
+                  height: 15,
+                ),
+                Container(
+                    width: Get.width * 0.8,
+                    height: 45,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(2),
+                      border: Border.all(color: primaryColor, width: 0.5),
+                    ),
+                    child: Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Image.asset(
+                            "assets/icons/apple_logo.png",
+                            height: 30,
+                          ),
+                          Text("Continue with Apple.",
+                              style: GoogleFonts.poppins(fontSize: 18)),
+                        ],
+                      ),
+                    )),
+                const SizedBox(
+                  height: 30,
+                ),
+                RichText(
+                  text: TextSpan(
+                    text: "Don't Have an Account? ",
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: textColor,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: " Register!",
+                        style: const TextStyle(
+                          color: secondaryColor,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        recognizer: TapGestureRecognizer()..onTap = () {},
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                GestureDetector(
+                  onTap: () {},
+                  child: RichText(
+                    text: TextSpan(
+                      text: 'Joining our app means you agree with our ',
+                      style: TextStyle(
+                          color: blackColor,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400),
+                      children: const <TextSpan>[
+                        TextSpan(
+                          text: 'Terms and conditions',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            color: secondaryColor, // Make the text blue
+                            decoration:
+                                TextDecoration.underline, // Add underline
+                          ),
+                        ),
+                        TextSpan(
+                          text: '.',
+                        ),
+                      ],
                     ),
                   ),
-                  SizedBox(
-                    height: Get.height * 0.1,
-                  ),
-                ],
-              ),
+                ),
+                SizedBox(
+                  height: Get.height * 0.1,
+                ),
+              ],
             ),
           ),
         ),
