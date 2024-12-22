@@ -30,7 +30,7 @@ Color primaryColor3 = convert.hexColor(color: '#97B6C6');
 Color primaryColor4 = convert.hexColor(color: '#D7E9F4');
 Color primaryColor5 = convert.hexColor(color: '#E8EAE9');
 
-Color secondaryColor = const Color.fromARGB(255, 5, 176, 74);
+const Color secondaryColor =  Color.fromARGB(255, 5, 176, 74);
 Color secondaryColorwithOpasity = const Color(0xffFB7393);
 Color inputFieldColor = convert.hexColor(color: '#FFFFFF');
 Color kgreyColor = const Color(0xFFD9D9D9);
@@ -50,7 +50,7 @@ Color lightGrey = Colors.grey[200]!;
 Color lightBackgroundColor = const Color(0xFFFFFFFF);
 
 Color greyColorDarker = Colors.grey[700]!;
-Color whiteColor = Colors.white;
+const Color whiteColor = Colors.white;
 Color blackColor = Colors.black;
 Color errorColor = Colors.red;
 Color successColor = Colors.green;

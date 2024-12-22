@@ -5,6 +5,7 @@ import 'package:introduction_slider/source/presentation/widgets/dot_indicator.da
 import 'package:introduction_slider/source/presentation/widgets/introduction_slider_item.dart';
 import 'package:pranshal_ecommerce/core/constants/colors.dart';
 import 'package:pranshal_ecommerce/features/authentication/presentation/screens/login_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -14,6 +15,11 @@ class OnboardingScreen extends StatefulWidget {
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
+  Future<void> _setOnboardingShown() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isOnboardShown', true);
+  }
+
   @override
   Widget build(BuildContext context) {
     return IntroductionSlider(
@@ -35,9 +41,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           backgroundColor: whiteColor,
         ),
       ],
-      done: const Done(
+      done: Done(
         child: Icon(Icons.done),
-        home: LoginScreen(),
+        home: Builder(
+          builder: (context) {
+            // Save onboarding state and navigate to login screen
+            _setOnboardingShown();
+            return const LoginScreen();
+          },
+        ),
       ),
       next: const Next(child: Icon(Icons.arrow_forward)),
       back: const Back(child: Icon(Icons.arrow_back)),
