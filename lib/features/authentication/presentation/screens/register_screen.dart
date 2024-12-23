@@ -125,7 +125,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               decoration: InputDecoration(
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(
-                                        20.0), // Set border radius
+                                        2.0), // Set border radius
                                     borderSide: BorderSide(
                                         color: primaryColor,
                                         width:
@@ -133,15 +133,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   ),
                                   // Optionally, set focused border (when the textfield is focused)
                                   focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(20.0),
+                                    borderRadius: BorderRadius.circular(2.0),
                                     borderSide: BorderSide(
-                                        color: primaryColor, width: 1.0),
+                                        color: primaryColor, width: 0.5),
                                   ),
                                   // Optionally, set enabled border (when the textfield is enabled but not focused)
                                   enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(20.0),
+                                    borderRadius: BorderRadius.circular(2.0),
                                     borderSide: BorderSide(
-                                        color: primaryColor, width: 1.0),
+                                        color: primaryColor, width: 0.5),
                                   ),
                                   filled: true,
                                   floatingLabelStyle: floatingLabelTextStyle(),
@@ -175,7 +175,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               decoration: InputDecoration(
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(
-                                        20.0), // Set border radius
+                                        2.0), // Set border radius
                                     borderSide: BorderSide(
                                         color: primaryColor,
                                         width:
@@ -183,15 +183,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   ),
                                   // Optionally, set focused border (when the textfield is focused)
                                   focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(20.0),
+                                    borderRadius: BorderRadius.circular(2.0),
                                     borderSide: BorderSide(
-                                        color: primaryColor, width: 1.0),
+                                        color: primaryColor, width: 0.5),
                                   ),
                                   // Optionally, set enabled border (when the textfield is enabled but not focused)
                                   enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(20.0),
+                                    borderRadius: BorderRadius.circular(2.0),
                                     borderSide: BorderSide(
-                                        color: primaryColor, width: 1.0),
+                                        color: primaryColor, width: 0.5),
                                   ),
                                   filled: true,
                                   floatingLabelStyle: floatingLabelTextStyle(),
@@ -232,19 +232,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       20.0), // Set border radius
                                   borderSide: BorderSide(
                                       color: primaryColor,
-                                      width: 1.0), // Set border color and width
+                                      width: 0.5), // Set border color and width
                                 ),
                                 // Optionally, set focused border (when the textfield is focused)
                                 focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20.0),
+                                  borderRadius: BorderRadius.circular(2.0),
                                   borderSide: BorderSide(
-                                      color: primaryColor, width: 1.0),
+                                      color: primaryColor, width: 0.5),
                                 ),
                                 // Optionally, set enabled border (when the textfield is enabled but not focused)
                                 enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20.0),
+                                  borderRadius: BorderRadius.circular(2.0),
                                   borderSide: BorderSide(
-                                      color: primaryColor, width: 1.0),
+                                      color: primaryColor, width: 0.5),
                                 ),
 
                                 filled: true,
@@ -281,19 +281,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       20.0), // Set border radius
                                   borderSide: BorderSide(
                                       color: primaryColor,
-                                      width: 1.0), // Set border color and width
+                                      width: 0.5), // Set border color and width
                                 ),
                                 // Optionally, set focused border (when the textfield is focused)
                                 focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20.0),
+                                  borderRadius: BorderRadius.circular(2.0),
                                   borderSide: BorderSide(
-                                      color: primaryColor, width: 1.0),
+                                      color: primaryColor, width: 0.5),
                                 ),
                                 // Optionally, set enabled border (when the textfield is enabled but not focused)
                                 enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20.0),
+                                  borderRadius: BorderRadius.circular(2.0),
                                   borderSide: BorderSide(
-                                      color: primaryColor, width: 1.0),
+                                      color: primaryColor, width: 0.5),
                                 ),
 
                                 filled: true,
@@ -325,43 +325,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                             ),
                             SizedBox(height: Get.height * 0.02),
-                            // TextFormField(
-                            //   cursorColor: secondaryColor,
-                            //   controller: couponController,
-                            //   textInputAction: TextInputAction.newline,
-                            //   // obscureText: !_newPassword,
-                            //   decoration: InputDecoration(
-                            //     border: OutlineInputBorder(
-                            //       borderRadius: BorderRadius.circular(
-                            //           20.0), // Set border radius
-                            //       borderSide: BorderSide(
-                            //           color: primaryColor,
-                            //           width: 1.0), // Set border color and width
-                            //     ),
-                            //     // Optionally, set focused border (when the textfield is focused)
-                            //     focusedBorder: OutlineInputBorder(
-                            //       borderRadius: BorderRadius.circular(20.0),
-                            //       borderSide: BorderSide(
-                            //           color: primaryColor, width: 1.0),
-                            //     ),
-                            //     // Optionally, set enabled border (when the textfield is enabled but not focused)
-                            //     enabledBorder: OutlineInputBorder(
-                            //       borderRadius: BorderRadius.circular(20.0),
-                            //       borderSide: BorderSide(
-                            //           color: primaryColor, width: 1.0),
-                            //     ),
-                            //     fillColor: textFieldColor,
-                            //     filled: true,
-                            //     floatingLabelStyle: floatingLabelTextStyle(),
-                            //     labelStyle: TextStyle(
-                            //       color: textColor,
-                            //       fontSize: 15,
-                            //       fontWeight: FontWeight.w500,
-                            //     ),
-                            //     hintText: 'Referral Code(optional)',
-                            //     labelText: 'Referral Code (optional)',
-                            //   ),
-                            // ),
                           ],
                         )),
                   ),

@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/route_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pranshal_ecommerce/features/authentication/presentation/screens/email_login_screen.dart';
 
 import '../../../../core/constants/colors.dart';
 import '../../../internet/data/bloc/internet_bloc.dart';
@@ -97,29 +98,91 @@ class _LoginScreenState extends State<LoginScreen> {
                   'assets/applogo/pranshal_bg_removed.png',
                   width: Get.width * 0.4,
                 ),
-                Container(
-                    width: Get.width * 0.8,
-                    height: 45,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(2),
-                      border: Border.all(color: primaryColor, width: 0.5),
-                    ),
-                    child: Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Image.asset(
-                            "assets/icons/email_logo.png",
-                            height: 30,
-                          ),
-                          Text("Login with email.",
-                              style: GoogleFonts.poppins(fontSize: 18)),
-                        ],
+                GestureDetector(
+                  onTap: () {
+                    // setState(() {
+                    //   _isLoginWithEmailTapped = !_isLoginWithEmailTapped;
+                    // });
+                    Get.to(()=> const EmailLoginScreen());
+                  },
+                  child: Container(
+                      width: Get.width * 0.8,
+                      height: 45,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(2),
+                        border: Border.all(color: primaryColor, width: 0.5),
                       ),
-                    )),
+                      child: Center(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Image.asset(
+                              "assets/icons/email_logo.png",
+                              height: 30,
+                            ),
+                            Text("Login with email.",
+                                style: GoogleFonts.poppins(fontSize: 18)),
+                          ],
+                        ),
+                      )),
+                ),
                 const SizedBox(
                   height: 15,
                 ),
+                // if (_isLoginWithEmailTapped)
+                //   SizedBox(
+                //     width: Get.width * 0.8,
+                //     height: 45,
+                //     child: TextFormField(
+                //       cursorColor: primaryColor4,
+                //       controller: emailController,
+                //       validator: (value) {
+                //         if (value == null || value.isEmpty) {
+                //           return 'Please enter your Email';
+                //         }
+
+                //         // if (!EmailValidator.validate(value)) {
+                //         //   return 'Invalid email format. Please use a format like \nexample@domain.com.';
+                //         // }
+                //         return null;
+                //       },
+                //       textInputAction: TextInputAction.next,
+                //       keyboardType: TextInputType.emailAddress,
+                //       decoration: InputDecoration(
+                //           border: OutlineInputBorder(
+                //             borderRadius:
+                //                 BorderRadius.circular(2.0), // Set border radius
+                //             borderSide: BorderSide(
+                //                 color: primaryColor,
+                //                 width: 0.5), // Set border color and width
+                //           ),
+                //           // Optionally, set focused border (when the textfield is focused)
+                //           focusedBorder: OutlineInputBorder(
+                //             borderRadius: BorderRadius.circular(2.0),
+                //             borderSide:
+                //                 BorderSide(color: primaryColor, width: 0.5),
+                //           ),
+                //           // Optionally, set enabled border (when the textfield is enabled but not focused)
+                //           enabledBorder: OutlineInputBorder(
+                //             borderRadius: BorderRadius.circular(2.0),
+                //             borderSide:
+                //                 BorderSide(color: primaryColor, width: 0.5),
+                //           ),
+                //           filled: true,
+                //           floatingLabelStyle: floatingLabelTextStyle(),
+                //           labelStyle: TextStyle(
+                //             color: textColor.withOpacity(0.5),
+                //             fontSize: 15,
+                //             fontWeight: FontWeight.w500,
+                //           ),
+                //           labelText: 'Email your email',
+                //           hintText: 'Email your email'),
+                //     ),
+                //   ),
+                // if (_isLoginWithEmailTapped)
+                //   const SizedBox(
+                //     height: 15,
+                //   ),
                 SizedBox(
                   width: Get.width * 0.8,
                   child: Row(
@@ -236,9 +299,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           color: secondaryColor,
                           fontWeight: FontWeight.w500,
                         ),
-                        recognizer: TapGestureRecognizer()..onTap = () {
-                          Get.to(() => const RegisterScreen());
-                        },
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            Get.to(() => const RegisterScreen());
+                          },
                       ),
                     ],
                   ),
