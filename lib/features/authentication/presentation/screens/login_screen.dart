@@ -10,6 +10,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/constants/colors.dart';
 import '../../../internet/data/bloc/internet_bloc.dart';
+import 'register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({
@@ -235,7 +236,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           color: secondaryColor,
                           fontWeight: FontWeight.w500,
                         ),
-                        recognizer: TapGestureRecognizer()..onTap = () {},
+                        recognizer: TapGestureRecognizer()..onTap = () {
+                          Get.to(() => const RegisterScreen());
+                        },
                       ),
                     ],
                   ),
