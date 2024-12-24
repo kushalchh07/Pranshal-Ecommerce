@@ -20,7 +20,7 @@ ColorConverter convert = ColorConverter();
 
 // Color mainColor = convert.hexColor(color: '#003400');
 // Color mainColor = Colors.teal;
-Color primaryColor = convert.hexColor(color: '#273033');
+ Color primaryColor = convert.hexColor(color: '#273033');
 Color primaryColor1 = convert.hexColor(color: '#3A4959');
 
 Color primaryColor2 = convert.hexColor(color: '#607A84');
