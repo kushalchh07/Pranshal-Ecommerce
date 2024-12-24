@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
+import 'package:pranshal_ecommerce/features/authentication/presentation/screens/reset_password.dart';
 
 import '../../../../core/constants/colors.dart';
 import 'login_screen.dart';
@@ -46,7 +47,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
               height: 10,
             ),
             Text(
-              "Enter You Email address to reset your password.",
+              "Enter your email address to reset your password.",
               style: TextStyle(
                   color: primaryColor.withOpacity(0.6),
                   fontSize: 16,
@@ -124,7 +125,9 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                     )),
-                onPressed: () {},
+                onPressed: () {
+                  Get.to(() => const ResetPassword());
+                },
                 child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

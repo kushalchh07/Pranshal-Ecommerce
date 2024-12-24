@@ -204,6 +204,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               },
                               textInputAction: TextInputAction.next,
                               keyboardType: TextInputType.text,
+                              obscureText: !_newPassword,
                               inputFormatters: [
                                 FilteringTextInputFormatter.digitsOnly
                               ],
