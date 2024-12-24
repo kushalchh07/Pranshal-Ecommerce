@@ -76,6 +76,7 @@ flutter:
     - assets/images/
     - assets/startup/
     - assets/applogo/
+    - assets/others/
     
   #   - images/a_dot_ham.jpeg
 
