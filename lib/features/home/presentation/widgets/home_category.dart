@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 
 class HomeCategory extends StatefulWidget {
@@ -31,8 +32,12 @@ class _HomeCategoryState extends State<HomeCategory> {
       "image": "assets/images/s5.jpg",
     },
     {
-      "name": "Tiffany Co.",
+      "name": "New Balance.",
       "image": "assets/images/s6.jpg",
+    },
+    {
+      "name": "Tiffany Co..",
+      "image": "assets/images/s7.jpg",
     },
   ];
   @override
@@ -42,7 +47,7 @@ class _HomeCategoryState extends State<HomeCategory> {
       child: Column(
         children: [
           SizedBox(
-            height: Get.height * 0.2,
+            height: Get.height * 0.12,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: categoryList.length,
@@ -56,6 +61,7 @@ class _HomeCategoryState extends State<HomeCategory> {
                         width: 70,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
+                          color: Colors.pink,
                           image: DecorationImage(
                             image: AssetImage(categoryList[index]["image"]),
                             fit: BoxFit.cover,
