@@ -7,6 +7,7 @@ import 'package:get/route_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/constants/colors.dart';
+import '../../../base/base.dart';
 import 'forget_password.dart';
 import 'login_screen.dart';
 
@@ -303,7 +304,9 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                       )),
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.to(() => const Base());
+                  },
                   child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
