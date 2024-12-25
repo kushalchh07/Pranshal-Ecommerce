@@ -7,8 +7,13 @@ class HomeTitle extends StatelessWidget {
   final String title;
   final dynamic viewAllNeeded;
   final Function? onTap;
+  final double fontSize;
   const HomeTitle(
-      {super.key, required this.title, this.viewAllNeeded, this.onTap});
+      {super.key,
+      required this.title,
+      this.viewAllNeeded,
+      this.onTap,
+      this.fontSize = 20});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +24,7 @@ class HomeTitle extends StatelessWidget {
           Text(title,
               style: TextStyle(
                   color: primaryColor,
-                  fontSize: 20,
+                  fontSize: fontSize,
                   fontWeight: FontWeight.bold)),
           const Spacer(),
           viewAllNeeded

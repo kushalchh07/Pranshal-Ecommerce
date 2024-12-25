@@ -5,8 +5,8 @@ import 'package:pranshal_ecommerce/core/constants/colors.dart';
 import 'package:pranshal_ecommerce/features/cart/presentation/screens/cart.dart';
 import 'package:pranshal_ecommerce/features/home/presentation/screens/homepage.dart';
 
-import '../user profile/presentation/screens/user_profile.dart';
-import '../wishlist/presentation/screens/wishlist.dart';
+import '../../../user profile/presentation/screens/user_profile.dart';
+import '../../../wishlist/presentation/screens/wishlist.dart';
 
 class Base extends StatefulWidget {
   const Base({super.key});

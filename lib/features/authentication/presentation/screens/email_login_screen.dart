@@ -7,7 +7,7 @@ import 'package:get/route_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/constants/colors.dart';
-import '../../../base/base.dart';
+import '../../../base/presentation/screens/base.dart';
 import 'forget_password.dart';
 import 'login_screen.dart';
 
