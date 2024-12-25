@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:pranshal_ecommerce/features/home/presentation/widgets/home_category.dart';
 
 import '../widgets/home_banner.dart';
+import '../widgets/title_home.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -16,8 +18,13 @@ class _HomeScreenState extends State<HomeScreen> {
         appBar: AppBar(
           automaticallyImplyLeading: false,
         ),
-        body: const Column(children: [
-          HomeBanner(),
-        ]));
+        body: const Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              HomeBanner(),
+              HomeTitle(title: 'Categories'),
+              HomeCategory()
+            ]));
   }
 }

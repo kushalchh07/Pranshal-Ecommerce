@@ -28,6 +28,7 @@ class _HomeBannerState extends State<HomeBanner> {
   }
 
   List<String> slider = [
+    "assets/images/fd1.jpg",
     "assets/images/slider_1.png",
     "assets/images/slider_2.png",
     "assets/images/slider_3.png",
@@ -57,50 +58,53 @@ class _HomeBannerState extends State<HomeBanner> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        SizedBox(
-          height: Get.height * 0.2,
-          child: PageView.builder(
-            physics: const BouncingScrollPhysics(),
-            itemCount: slider.length,
-            scrollDirection: Axis.horizontal,
-            controller: _pageController,
-            onPageChanged: (index) {
-              setState(() {
-                currentPage = index;
-              });
-            },
-            itemBuilder: (context, index) {
-              // log("image url ${sliderUrl + (widget.slider[index].image ?? '')}");
-              return Image.asset(
-                slider[index],
-                fit: BoxFit.cover,
-              );
-            },
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(
+            height: Get.height * 0.2,
+            child: PageView.builder(
+              physics: const BouncingScrollPhysics(),
+              itemCount: slider.length,
+              scrollDirection: Axis.horizontal,
+              controller: _pageController,
+              onPageChanged: (index) {
+                setState(() {
+                  currentPage = index;
+                });
+              },
+              itemBuilder: (context, index) {
+                // log("image url ${sliderUrl + (widget.slider[index].image ?? '')}");
+                return Image.asset(
+                  slider[index],
+                  fit: BoxFit.cover,
+                );
+              },
+            ),
           ),
-        ),
-        SizedBox(
-          height: 15,
-          child: DotsIndicator(
-            position: currentPage,
-            dotsCount: slider.length,
-            decorator: DotsDecorator(
-              size: const Size.square(8.0),
-              activeSize: const Size(52.0, 10.0),
-              activeColor: blackColor,
-              color: blackColor,
-              activeShape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.horizontal(
-                  left: Radius.circular(10),
-                  right: Radius.circular(10),
+          SizedBox(
+            height: 15,
+            child: DotsIndicator(
+              position: currentPage,
+              dotsCount: slider.length,
+              decorator: DotsDecorator(
+                size: const Size.square(8.0),
+                activeSize: const Size(52.0, 10.0),
+                activeColor: blackColor,
+                color: blackColor,
+                activeShape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.horizontal(
+                    left: Radius.circular(10),
+                    right: Radius.circular(10),
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
