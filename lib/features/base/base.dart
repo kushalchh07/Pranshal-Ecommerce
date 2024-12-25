@@ -6,6 +6,7 @@ import 'package:pranshal_ecommerce/features/cart/presentation/screens/cart.dart'
 import 'package:pranshal_ecommerce/features/home/presentation/screens/homepage.dart';
 
 import '../user profile/presentation/screens/user_profile.dart';
+import '../wishlist/presentation/screens/wishlist.dart';
 
 class Base extends StatefulWidget {
   const Base({super.key});
@@ -20,6 +21,7 @@ class _BaseState extends State<Base> {
 
   final screens = [
     const HomeScreen(),
+    const Wishlist(),
     const CartScreen(),
     const UserProfile(),
   ];
@@ -32,8 +34,9 @@ class _BaseState extends State<Base> {
         index: page,
         items: <Widget>[
           _buildNavItem(0, CupertinoIcons.home, "Home"),
-          _buildNavItem(1, CupertinoIcons.cart, "Cart"),
-          _buildNavItem(2, CupertinoIcons.person, "Profile"),
+          _buildNavItem(1, CupertinoIcons.heart, "Wishlist"),
+          _buildNavItem(2, CupertinoIcons.cart, "Cart"),
+          _buildNavItem(3, CupertinoIcons.person, "Profile"),
         ],
         color: primaryColor3,
         buttonBackgroundColor: primaryColor2,

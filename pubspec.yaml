@@ -48,6 +48,7 @@ dependencies:
   introduction_slider: ^2.0.1
   google_fonts: ^6.2.1
   curved_navigation_bar: ^1.0.6
+  dots_indicator: ^3.0.0
 
 dev_dependencies:
   flutter_test:
