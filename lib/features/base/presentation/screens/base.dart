@@ -38,8 +38,8 @@ class _BaseState extends State<Base> {
           _buildNavItem(2, CupertinoIcons.cart, "Cart"),
           _buildNavItem(3, CupertinoIcons.person, "Profile"),
         ],
-        color: primaryColor3,
-        buttonBackgroundColor: primaryColor2,
+        color: primaryColor4,
+        buttonBackgroundColor: primaryColor4,
         backgroundColor: Colors.transparent,
         height: 70, // Adjust height for a better layout with 3 items
         animationCurve: Curves.easeInOut,
@@ -65,7 +65,7 @@ class _BaseState extends State<Base> {
           Icon(
             icon,
             size: 25, // Increase size slightly for better visibility
-            color: page == index ? whiteColor : primaryColor,
+            color: page == index ? primaryColor : primaryColor,
           ),
           if (page != index) // Show label only if the item is not selected
             Text(

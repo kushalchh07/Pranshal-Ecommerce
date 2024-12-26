@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
+import 'package:pranshal_ecommerce/features/home/presentation/screens/all_categories.dart';
 import 'package:pranshal_ecommerce/features/home/presentation/widgets/home_category.dart';
 import '../../../../core/constants/colors.dart';
 import '../widgets/home_banner.dart';
@@ -7,6 +9,8 @@ import '../widgets/home_brands.dart';
 import '../widgets/home_flashsale.dart';
 import '../widgets/title_home.dart';
 import 'package:badges/badges.dart' as badges;
+
+import 'all_brands.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -26,6 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
       },
       child: Scaffold(
           appBar: AppBar(
+            backgroundColor: primaryColor4,
             automaticallyImplyLeading: false,
             titleSpacing: 0,
             leading: Builder(
@@ -188,26 +193,37 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    const SizedBox(
+                      height: 4,
+                    ),
                     const HomeBanner(),
-                    HomeTitle(
+                    const HomeTitle(
                       title: 'Flash Sale',
-                      viewAllNeeded: true,
+                      viewAllNeeded: false,
                       fontSize: 24,
-                      onTap: () {},
                     ),
                     const HomeFlashSale(),
                     HomeTitle(
                       title: 'Brands',
                       viewAllNeeded: true,
-                      onTap: () {},
+                      onTap: () {
+                        Get.to(()=>const AllBrands());
+                      },
                     ),
                     const HomeBrands(),
                     HomeTitle(
-                      title: 'Categories',
+                      title: 'Shop By Categories',
+                      viewAllNeeded: true,
+                      onTap: () {
+                        Get.to(() => const AllCategories());
+                      },
+                    ),
+                    const HomeCategory(),
+                    HomeTitle(
+                      title: 'Curated For You',
                       viewAllNeeded: true,
                       onTap: () {},
                     ),
-                    const HomeCategory(),
                     const SizedBox(
                       height: 200,
                     )
