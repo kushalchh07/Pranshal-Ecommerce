@@ -1,9 +1,34 @@
 import 'package:flutter/material.dart';
 
-class ProductDetailPage extends StatelessWidget {
+class ProductDetailPage extends StatefulWidget {
   final Map<String, dynamic> product;
 
   const ProductDetailPage({Key? key, required this.product}) : super(key: key);
+
+  @override
+  _ProductDetailPageState createState() => _ProductDetailPageState();
+}
+
+class _ProductDetailPageState extends State<ProductDetailPage> {
+  late Map<String, dynamic> product;
+
+  @override
+  void initState() {
+    super.initState();
+    product = widget.product;
+  }
+
+  void toggleCartStatus() {
+    setState(() {
+      product['isAddedToCart'] = !product['isAddedToCart'];
+    });
+  }
+
+  void toggleWishlistStatus() {
+    setState(() {
+      product['isAddedToWishlist'] = !product['isAddedToWishlist'];
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +99,7 @@ class ProductDetailPage extends StatelessWidget {
                   // Description
                   const Text(
                     "Description:",
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
@@ -141,9 +166,7 @@ class ProductDetailPage extends StatelessWidget {
                                 : Colors.green,
                             padding: const EdgeInsets.symmetric(vertical: 16),
                           ),
-                          onPressed: () {
-                            // Logic for Add to Cart
-                          },
+                          onPressed: toggleCartStatus,
                           child: Text(
                             product['isAddedToCart']
                                 ? "Added to Cart"
@@ -161,9 +184,7 @@ class ProductDetailPage extends StatelessWidget {
                                 : Colors.red,
                             padding: const EdgeInsets.symmetric(vertical: 16),
                           ),
-                          onPressed: () {
-                            // Logic for Add to Wishlist
-                          },
+                          onPressed: toggleWishlistStatus,
                           child: Text(
                             product['isAddedToWishlist']
                                 ? "Added to Wishlist"

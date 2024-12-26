@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 
 import '../../data/Storage/for_you_data.dart';
+import '../screens/product_details.dart';
 
 class CuratedProduct extends StatelessWidget {
   const CuratedProduct({
@@ -23,6 +24,7 @@ class CuratedProduct extends StatelessWidget {
               return GestureDetector(
                 onTap: () {
                   // Navigate to product detail page or perform any action
+                  Get.to(() => ProductDetailPage(product: product));
                 },
                 child: Container(
                   margin: const EdgeInsets.only(

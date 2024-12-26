@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
+import 'package:pranshal_ecommerce/features/home/presentation/screens/product_details.dart';
 
 import '../../../../core/constants/colors.dart';
 import '../../data/Storage/for_you_data.dart';
@@ -45,7 +46,7 @@ class _AllProductsState extends State<AllProducts> {
                 final product = productList[index];
                 return GestureDetector(
                   onTap: () {
-                    // Navigate to product detail page or perform any action
+                    Get.to(() => ProductDetailPage(product: product));
                   },
                   child: Container(
                     decoration: BoxDecoration(
