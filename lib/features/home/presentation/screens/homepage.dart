@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pranshal_ecommerce/features/home/presentation/widgets/home_category.dart';
-
 import '../../../../core/constants/colors.dart';
 import '../widgets/home_banner.dart';
+import '../widgets/home_brands.dart';
 import '../widgets/home_flashsale.dart';
 import '../widgets/title_home.dart';
 import 'package:badges/badges.dart' as badges;
@@ -111,7 +111,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             actions: [
               Padding(
-                padding: const EdgeInsets.only(right: 10.0, left: 2),
+                padding: const EdgeInsets.only(right: 10.0, left: 6),
                 child: GestureDetector(
                   onTap: () {},
                   child: badges.Badge(
@@ -178,26 +178,41 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
-          body: SingleChildScrollView(
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const HomeBanner(),
-                  HomeTitle(
-                    title: 'Flash Sale',
-                    viewAllNeeded: true,
-                    fontSize: 24,
-                    onTap: () {},
-                  ),
-                  const HomeFlashSale(),
-                  HomeTitle(
-                    title: 'Categories',
-                    viewAllNeeded: true,
-                    onTap: () {},
-                  ),
-                  const HomeCategory(),
-                ]),
+          body: RefreshIndicator.adaptive(
+            color: primaryColor,
+            onRefresh: () async {
+              setState(() {});
+            },
+            child: SingleChildScrollView(
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const HomeBanner(),
+                    HomeTitle(
+                      title: 'Flash Sale',
+                      viewAllNeeded: true,
+                      fontSize: 24,
+                      onTap: () {},
+                    ),
+                    const HomeFlashSale(),
+                    HomeTitle(
+                      title: 'Brands',
+                      viewAllNeeded: true,
+                      onTap: () {},
+                    ),
+                    const HomeBrands(),
+                    HomeTitle(
+                      title: 'Categories',
+                      viewAllNeeded: true,
+                      onTap: () {},
+                    ),
+                    const HomeCategory(),
+                    const SizedBox(
+                      height: 200,
+                    )
+                  ]),
+            ),
           )),
     );
   }
