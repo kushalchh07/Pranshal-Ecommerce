@@ -7,10 +7,12 @@ import '../../../../core/constants/colors.dart';
 import '../widgets/home_banner.dart';
 import '../widgets/home_brands.dart';
 import '../widgets/home_flashsale.dart';
+import '../widgets/home_products.dart';
 import '../widgets/title_home.dart';
 import 'package:badges/badges.dart' as badges;
 
 import 'all_brands.dart';
+import 'all_products.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -207,7 +209,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       title: 'Brands',
                       viewAllNeeded: true,
                       onTap: () {
-                        Get.to(()=>const AllBrands());
+                        Get.to(() => const AllBrands());
                       },
                     ),
                     const HomeBrands(),
@@ -224,6 +226,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       viewAllNeeded: true,
                       onTap: () {},
                     ),
+                    const CuratedProduct(),
                     const SizedBox(
                       height: 200,
                     )
