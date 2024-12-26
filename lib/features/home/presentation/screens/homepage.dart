@@ -214,6 +214,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     const HomeBrands(),
                     HomeTitle(
+                      title: 'Curated For You',
+                      viewAllNeeded: true,
+                      onTap: () {
+                        Get.to(() => const AllProducts());
+                      },
+                    ),
+                    const CuratedProduct(),
+                    HomeTitle(
                       title: 'Shop By Categories',
                       viewAllNeeded: true,
                       onTap: () {
@@ -221,12 +229,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       },
                     ),
                     const HomeCategory(),
-                    HomeTitle(
-                      title: 'Curated For You',
-                      viewAllNeeded: true,
-                      onTap: () {},
-                    ),
-                    const CuratedProduct(),
                     const SizedBox(
                       height: 200,
                     )
