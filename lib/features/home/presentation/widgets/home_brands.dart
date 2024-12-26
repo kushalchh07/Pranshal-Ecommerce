@@ -35,7 +35,6 @@ class _HomeBrandsState extends State<HomeBrands> {
                         decoration: BoxDecoration(
                           border: Border.all(color: greyColor),
                           borderRadius: BorderRadius.circular(100),
-                          color: Colors.pink,
                           image: DecorationImage(
                             image: AssetImage(brandList[index]["image"]),
                             fit: BoxFit.cover,
