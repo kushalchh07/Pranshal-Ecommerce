@@ -6,22 +6,23 @@ import 'package:pranshal_ecommerce/core/constants/colors.dart';
 import '../../data/Storage/categories_data.dart';
 
 class HomeCategory extends StatefulWidget {
-
-  const HomeCategory({super.key,});
+  const HomeCategory({
+    super.key,
+  });
 
   @override
   State<HomeCategory> createState() => _HomeCategoryState();
 }
 
 class _HomeCategoryState extends State<HomeCategory> {
- @override
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Column(
         children: [
           SizedBox(
-            height: Get.height * 0.12,
+            height: Get.height * 0.14,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: 6,

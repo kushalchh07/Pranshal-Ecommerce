@@ -20,7 +20,7 @@ class _HomeBrandsState extends State<HomeBrands> {
       child: Column(
         children: [
           SizedBox(
-            height: Get.height * 0.12,
+            height: Get.height * 0.14,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: 6,

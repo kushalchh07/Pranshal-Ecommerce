@@ -1,4 +1,22 @@
-part of 'register_bloc.dart';
+import 'package:equatable/equatable.dart';
 
-@immutable
-sealed class RegisterEvent {}
+abstract class RegisterEvent extends Equatable {
+  @override
+  List<Object?> get props => [];
+}
+
+class RegisterSubmitted extends RegisterEvent {
+  final String username;
+  final String email;
+  final String password;
+  final String phoneNumber;
+
+  RegisterSubmitted(
+      {required this.username,
+      required this.email,
+      required this.password,
+      required this.phoneNumber});
+
+  @override
+  List<Object?> get props => [username, email, password, phoneNumber];
+}
