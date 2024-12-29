@@ -34,6 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
           appBar: AppBar(
             backgroundColor: primaryColor4,
             automaticallyImplyLeading: false,
+            surfaceTintColor: primaryColor4,
             titleSpacing: 0,
             leading: Builder(
               builder: (context) => IconButton(

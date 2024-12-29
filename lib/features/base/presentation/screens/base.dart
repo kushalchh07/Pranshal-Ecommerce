@@ -9,7 +9,8 @@ import '../../../user profile/presentation/screens/user_profile.dart';
 import '../../../wishlist/presentation/screens/wishlist.dart';
 
 class Base extends StatefulWidget {
-  const Base({super.key});
+  final int pageIndex;
+  const Base({super.key, this.pageIndex = 0});
 
   @override
   State<Base> createState() => _BaseState();
@@ -25,6 +26,11 @@ class _BaseState extends State<Base> {
     const CartScreen(),
     const UserProfile(),
   ];
+  @override
+  void initState() {
+    super.initState();
+    page = widget.pageIndex;
+  }
 
   @override
   Widget build(BuildContext context) {

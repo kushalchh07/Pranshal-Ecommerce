@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pranshal_ecommerce/features/base/presentation/screens/base.dart';
 import '../../../features/startUp/presentation/screens/splash.dart';
 import '../../../features/authentication/presentation/screens/login_screen.dart';
 import '../../../features/authentication/presentation/screens/register_screen.dart';
@@ -13,6 +14,7 @@ class AppRouter {
   static const String cart = '/cart';
   static const String login = '/login';
   static const String register = '/register';
+  static const String base='/base';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -28,6 +30,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const LoginScreen());
       case register:
         return MaterialPageRoute(builder: (_) => const RegisterScreen());
+         case base:
+        return MaterialPageRoute(builder: (_) => const Base());
 
       default:
         return MaterialPageRoute(

@@ -3,11 +3,16 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/route_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/constants/colors.dart';
 import '../../../base/presentation/screens/base.dart';
+import '../bloc/login_bloc/bloc/login_bloc.dart';
+import '../bloc/login_bloc/bloc/login_event.dart';
+import '../bloc/login_bloc/bloc/login_state.dart';
 import 'forget_password.dart';
 import 'login_screen.dart';
 
@@ -23,16 +28,33 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
   bool _isRememberMe = false;
   TextEditingController emailController = TextEditingController();
   TextEditingController passController = TextEditingController();
-  bool _isLoginWithEmailTapped = false;
+  final formKey = GlobalKey<FormState>();
+
   void toggleRememberMe() async {
     setState(() {
       _isRememberMe = !_isRememberMe;
     });
   }
 
-  login() async {}
+  login() async {
+    if (formKey.currentState!.validate()) {
+      FocusManager.instance.primaryFocus?.unfocus();
+      {
+        BlocProvider.of<LoginBloc>(context).add(LoginSubmitted(
+            email: emailController.text.trim(),
+            password: passController.text.trim()));
+        await clearControllers();
+      }
+    }
+  }
 
   googleLogin() async {}
+  facebookLogin() async {}
+  appleLogin() async {}
+  clearControllers() {
+    emailController.clear();
+    passController.clear();
+  }
 
   @override
   void dispose() {
@@ -165,161 +187,192 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
               const SizedBox(
                 height: 15,
               ),
-              SizedBox(
-                width: Get.width * 0.8,
-                height: 45,
-                child: TextFormField(
-                  cursorColor: primaryColor4,
-                  controller: emailController,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your Email';
-                    }
+              Form(
+                key: formKey,
+                child: Column(children: [
+                  SizedBox(
+                    width: Get.width * 0.8,
+                    height: 45,
+                    child: TextFormField(
+                      cursorColor: primaryColor4,
+                      controller: emailController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your Email';
+                        }
 
-                    // if (!EmailValidator.validate(value)) {
-                    //   return 'Invalid email format. Please use a format like \nexample@domain.com.';
-                    // }
-                    return null;
-                  },
-                  textInputAction: TextInputAction.next,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(
-                      CupertinoIcons.mail,
-                      color: primaryColor,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius:
-                          BorderRadius.circular(7.0), // Set border radius
-                      borderSide: BorderSide.none, // Set border color and width
-                    ),
-                    // Optionally, set focused border (when the textfield is focused)
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(7.0),
-                      borderSide: BorderSide.none,
-                    ),
-                    // Optionally, set enabled border (when the textfield is enabled but not focused)
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(7.0),
-                      borderSide: BorderSide.none,
-                    ),
-                    filled: true,
-                    floatingLabelStyle: floatingLabelTextStyle(),
-                    labelStyle: TextStyle(
-                      color: primaryColor.withOpacity(0.5),
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    labelText: 'Email your email',
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              SizedBox(
-                width: Get.width * 0.8,
-                height: 45,
-                child: TextFormField(
-                  cursorColor: primaryColor4,
-                  controller: passController,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your Password';
-                    }
-
-                    // if (!EmailValidator.validate(value)) {
-                    //   return 'Invalid email format. Please use a format like \nexample@domain.com.';
-                    // }
-                    return null;
-                  },
-                  onFieldSubmitted: (value) {
-                    // Trigger your button when "Next" is pressed
-                    //can implement the login logic from here.
-                  },
-                  textInputAction: TextInputAction.next,
-                  keyboardType: TextInputType.text,
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(
-                      CupertinoIcons.lock_circle,
-                      color: primaryColor,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius:
-                          BorderRadius.circular(7.0), // Set border radius
-                      borderSide: BorderSide.none, // Set border color and width
-                    ),
-                    // Optionally, set focused border (when the textfield is focused)
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(7.0),
-                      borderSide: BorderSide.none,
-                    ),
-                    // Optionally, set enabled border (when the textfield is enabled but not focused)
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(7.0),
-                      borderSide: BorderSide.none,
-                    ),
-                    filled: true,
-                    floatingLabelStyle: floatingLabelTextStyle(),
-                    labelStyle: TextStyle(
-                      color: primaryColor.withOpacity(0.5),
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    labelText: 'Email your password',
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 35.0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: TextButton(
-                      onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const ForgetPassword()));
+                        // if (!EmailValidator.validate(value)) {
+                        //   return 'Invalid email format. Please use a format like \nexample@domain.com.';
+                        // }
+                        return null;
                       },
-                      child: Text(
-                        'Forgot Password?',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: primaryColor2,
+                      textInputAction: TextInputAction.next,
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(
+                          CupertinoIcons.mail,
+                          color: primaryColor,
                         ),
-                      )),
-                ),
+                        border: OutlineInputBorder(
+                          borderRadius:
+                              BorderRadius.circular(7.0), // Set border radius
+                          borderSide:
+                              BorderSide.none, // Set border color and width
+                        ),
+                        // Optionally, set focused border (when the textfield is focused)
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(7.0),
+                          borderSide: BorderSide.none,
+                        ),
+                        // Optionally, set enabled border (when the textfield is enabled but not focused)
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(7.0),
+                          borderSide: BorderSide.none,
+                        ),
+                        filled: true,
+                        floatingLabelStyle: floatingLabelTextStyle(),
+                        labelStyle: TextStyle(
+                          color: primaryColor.withOpacity(0.5),
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        labelText: 'Email your email',
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  SizedBox(
+                    width: Get.width * 0.8,
+                    height: 45,
+                    child: TextFormField(
+                      cursorColor: primaryColor4,
+                      controller: passController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your Password';
+                        }
+
+                        // if (!EmailValidator.validate(value)) {
+                        //   return 'Invalid email format. Please use a format like \nexample@domain.com.';
+                        // }
+                        return null;
+                      },
+                      onFieldSubmitted: (value) {
+                        // Trigger your button when "Next" is pressed
+                        //can implement the login logic from here.
+                      },
+                      textInputAction: TextInputAction.next,
+                      keyboardType: TextInputType.text,
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(
+                          CupertinoIcons.lock_circle,
+                          color: primaryColor,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius:
+                              BorderRadius.circular(7.0), // Set border radius
+                          borderSide:
+                              BorderSide.none, // Set border color and width
+                        ),
+                        // Optionally, set focused border (when the textfield is focused)
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(7.0),
+                          borderSide: BorderSide.none,
+                        ),
+                        // Optionally, set enabled border (when the textfield is enabled but not focused)
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(7.0),
+                          borderSide: BorderSide.none,
+                        ),
+                        filled: true,
+                        floatingLabelStyle: floatingLabelTextStyle(),
+                        labelStyle: TextStyle(
+                          color: primaryColor.withOpacity(0.5),
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        labelText: 'Email your password',
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 35.0),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: TextButton(
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => const ForgetPassword()));
+                          },
+                          child: Text(
+                            'Forgot Password?',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: primaryColor2,
+                            ),
+                          )),
+                    ),
+                  )
+                ]),
               ),
               SizedBox(
                 height: 45,
                 width: Get.width * 0.8,
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                      backgroundColor: WidgetStatePropertyAll(primaryColor),
-                      elevation: const WidgetStatePropertyAll(0),
-                      shape: WidgetStatePropertyAll(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                      )),
-                  onPressed: () {
-                    Get.to(() => const Base());
+                child: BlocConsumer<LoginBloc, LoginState>(
+                  listener: (context, state) async {
+                    if (state is LoginFailure) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text(state.error),
+                      ));
+                    }
+                    if (state is LoginSuccess) {
+                      final SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      await prefs.setBool('isLoggedIn', true);
+                      Get.offAll(() => const Base());
+                    }
                   },
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Login',
-                        style: TextStyle(
-                          color: whiteColor,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                        ),
+                  builder: (context, state) {
+                    if (state is LoginLoading) {
+                      return const Center(
+                        child: CupertinoActivityIndicator(),
+                      );
+                    }
+
+                    return ElevatedButton(
+                      style: ButtonStyle(
+                          backgroundColor: WidgetStatePropertyAll(primaryColor),
+                          elevation: const WidgetStatePropertyAll(0),
+                          shape: WidgetStatePropertyAll(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                          )),
+                      onPressed: () {
+                        login();
+                        // Get.to(() => const Base());
+                      },
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Login',
+                            style: TextStyle(
+                              color: whiteColor,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    );
+                  },
                 ),
               ),
               const SizedBox(

@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:pranshal_ecommerce/core/theme/ThemeCubit/theme_cubit.dart';
+import 'package:pranshal_ecommerce/features/authentication/data/repositories/authentication_repository.dart';
+import 'package:pranshal_ecommerce/features/authentication/presentation/bloc/login_bloc/bloc/login_bloc.dart';
+import 'package:pranshal_ecommerce/features/authentication/presentation/bloc/register_bloc/bloc/register_bloc.dart';
 
 import 'core/navigation/routes/app_router.dart';
 import 'core/theme/app_theme.dart';
@@ -22,6 +25,14 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => InternetBloc(Connectivity()),
+        ),
+        BlocProvider(
+          create: (context) =>
+              LoginBloc(authRepository: AuthenticationRepository()),
+        ),
+        BlocProvider(
+          create: (context) =>
+              RegisterBloc(authRepository: AuthenticationRepository()),
         ),
       ],
       child: BlocBuilder<ThemeCubit, ThemeState>(
