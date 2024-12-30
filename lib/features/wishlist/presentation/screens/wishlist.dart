@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 import 'package:pranshal_ecommerce/core/constants/colors.dart';
 
 class Wishlist extends StatefulWidget {
@@ -103,9 +104,9 @@ class _WishlistState extends State<Wishlist> {
       ),
       bottomNavigationBar: Padding(
         padding:
-            const EdgeInsets.only(bottom: 30.0, right: 15, left: 20, top: 10),
+            const EdgeInsets.only(bottom: 50.0, right: 15, left: 20, top: 10),
         child: SizedBox(
-          height: 45,
+          height: 50,
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
                 backgroundColor: primaryColor,
@@ -114,10 +115,12 @@ class _WishlistState extends State<Wishlist> {
                   borderRadius: BorderRadius.circular(5),
                 )),
             onPressed: _addAllToCart,
-            child: const Text(
+            child: Text(
               'ADD ALL TO CART',
               style: TextStyle(
-                  fontSize: 18, fontWeight: FontWeight.bold, color: whiteColor),
+                  fontSize: Get.height * 0.015,
+                  fontWeight: FontWeight.bold,
+                  color: whiteColor),
             ),
           ),
         ),
