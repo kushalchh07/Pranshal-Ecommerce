@@ -2,11 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:pranshal_ecommerce/core/constants/colors.dart';
+import 'package:pranshal_ecommerce/features/home/data/models/home_model.dart';
 
 import '../../data/Storage/brands_data.dart';
 
 class HomeBrands extends StatefulWidget {
-  const HomeBrands({super.key});
+  final List<Brand> homebrands;
+  const HomeBrands({super.key, required this.homebrands});
 
   @override
   State<HomeBrands> createState() => _HomeBrandsState();

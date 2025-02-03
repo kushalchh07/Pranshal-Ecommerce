@@ -6,6 +6,7 @@ import 'package:pranshal_ecommerce/core/theme/ThemeCubit/theme_cubit.dart';
 import 'package:pranshal_ecommerce/features/authentication/data/repositories/authentication_repository.dart';
 import 'package:pranshal_ecommerce/features/authentication/presentation/bloc/login_bloc/bloc/login_bloc.dart';
 import 'package:pranshal_ecommerce/features/authentication/presentation/bloc/register_bloc/bloc/register_bloc.dart';
+import 'package:pranshal_ecommerce/features/home/presentation/blocs/home_bloc/home_page_bloc.dart';
 
 import 'core/navigation/routes/app_router.dart';
 import 'core/theme/app_theme.dart';
@@ -33,6 +34,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) =>
               RegisterBloc(authRepository: AuthenticationRepository()),
+        ),
+        BlocProvider(
+          create: (context) => HomePageBloc(),
         ),
       ],
       child: BlocBuilder<ThemeCubit, ThemeState>(

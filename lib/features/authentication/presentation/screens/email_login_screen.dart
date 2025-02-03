@@ -355,8 +355,8 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                             ),
                           )),
                       onPressed: () {
-                        login();
-                        // Get.to(() => const Base());
+                        // login();
+                        Get.to(() => const Base());
                       },
                       child: const Row(
                         mainAxisAlignment: MainAxisAlignment.center,

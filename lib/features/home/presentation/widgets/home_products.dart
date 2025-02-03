@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 
 import '../../data/Storage/for_you_data.dart';
+import '../../data/models/home_model.dart';
 import '../screens/product_details.dart';
 
 class CuratedProduct extends StatelessWidget {
+  final List<Product> curatedProducts;
+
   const CuratedProduct({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+    required this.curatedProducts
+  });
 
   @override
   Widget build(BuildContext context) {

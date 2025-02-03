@@ -2,9 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/constants/colors.dart';
+import '../../data/models/home_model.dart';
 
 class HomeFlashSale extends StatefulWidget {
-  const HomeFlashSale({super.key});
+  final List<FlashSaleProduct> flashSale;
+  const HomeFlashSale({super.key, required this.flashSale});
 
   @override
   State<HomeFlashSale> createState() => _HomeFlashSaleState();

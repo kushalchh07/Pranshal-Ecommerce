@@ -2,13 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:pranshal_ecommerce/core/constants/colors.dart';
+import 'package:pranshal_ecommerce/features/home/data/models/home_model.dart';
 
 import '../../data/Storage/categories_data.dart';
 
 class HomeCategory extends StatefulWidget {
-  const HomeCategory({
-    super.key,
-  });
+  final List<Category> categories;
+  const HomeCategory({super.key, required this.categories});
 
   @override
   State<HomeCategory> createState() => _HomeCategoryState();
@@ -25,7 +25,8 @@ class _HomeCategoryState extends State<HomeCategory> {
             height: Get.height * 0.14,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: 6,
+              itemCount:
+                  widget.categories.length > 6 ? 6 : widget.categories.length,
               itemBuilder: (context, index) {
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -45,7 +46,7 @@ class _HomeCategoryState extends State<HomeCategory> {
                       ),
                       const SizedBox(height: 5),
                       Text(
-                        categoryList[index]["name"],
+                        widget.categories[index].categoryName,
                         style: const TextStyle(fontWeight: FontWeight.w600),
                       ),
                     ],
