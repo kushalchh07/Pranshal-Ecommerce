@@ -13,6 +13,7 @@ import 'core/theme/app_theme.dart';
 import 'features/internet/data/bloc/internet_bloc.dart';
 
 void main() {
+
   runApp(MyApp());
 }
 
