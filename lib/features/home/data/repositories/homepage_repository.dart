@@ -24,4 +24,21 @@ class HomePageRepository {
       rethrow;
     }
   }
+
+  Future<void> logUserActivity(
+      int userId, int productId, String actionType) async {
+    final response = await http.post(
+      Uri.parse('$baseUrl/api/log-activity'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+        'user_id': userId,
+        'product_id': productId,
+        'action_type': actionType,
+      }),
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to log user activity');
+    }
+  }
 }

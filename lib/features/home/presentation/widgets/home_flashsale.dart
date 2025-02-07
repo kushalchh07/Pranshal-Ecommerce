@@ -59,59 +59,63 @@ class _HomeFlashSaleState extends State<HomeFlashSale> {
   ];
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(
-          height: 210,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: flashSaleList.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      height: 120,
-                      width: 120,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        image: DecorationImage(
-                          image: AssetImage(flashSaleList[index]["image"]),
-                          fit: BoxFit.cover,
-                        ),
+    return widget.flashSale.length > 0
+        ? Column(
+            children: [
+              SizedBox(
+                height: 210,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount:
+                      widget.flashSale.length > 6 ? 6 : widget.flashSale.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            height: 120,
+                            width: 120,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              image: DecorationImage(
+                                image:
+                                    AssetImage(flashSaleList[index]["image"]),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            widget.flashSale[index].productName,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w700, fontSize: 15),
+                          ),
+                          Text(
+                            "Rs.${widget.flashSale[index].sellPrice}",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                color: primaryColor,
+                                fontSize: 12),
+                          ),
+                          Text(
+                            "Rs.${widget.flashSale[index].normalPrice}",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 12,
+                                color: primaryColor,
+                                decoration: TextDecoration.lineThrough),
+                          ),
+                        ],
                       ),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      flashSaleList[index]["name"],
-                      style: const TextStyle(
-                          fontWeight: FontWeight.w700, fontSize: 15),
-                    ),
-                    Text(
-                      "Rs.${flashSaleList[index]["sellPrice"]}",
-                      style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          color: primaryColor,
-                          fontSize: 12),
-                    ),
-                    Text(
-                      "Rs.${flashSaleList[index]["normalPrice"]}",
-                      style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 12,
-                          color: primaryColor,
-                          decoration: TextDecoration.lineThrough),
-                    ),
-                  ],
+                    );
+                  },
                 ),
-              );
-            },
-          ),
-        ),
-      ],
-    );
+              ),
+            ],
+          )
+        : const SizedBox.shrink();
   }
 }

@@ -214,41 +214,49 @@ class _HomeScreenState extends State<HomeScreen> {
                             height: 4,
                           ),
                           const HomeBanner(),
-                          const HomeTitle(
-                            title: 'Flash Sale',
-                            viewAllNeeded: false,
-                            fontSize: 24,
-                          ),
+                          state.homeResponse.flashSaleProducts.isEmpty
+                              ? const SizedBox()
+                              : const HomeTitle(
+                                  title: 'Flash Sale',
+                                  viewAllNeeded: false,
+                                  fontSize: 24,
+                                ),
                           HomeFlashSale(
                             flashSale: state.homeResponse.flashSaleProducts,
                           ),
-                          HomeTitle(
-                            title: 'Brands',
-                            viewAllNeeded: true,
-                            onTap: () {
-                              Get.to(() => const AllBrands());
-                            },
-                          ),
+                          state.homeResponse.brands.isEmpty
+                              ? const SizedBox()
+                              : HomeTitle(
+                                  title: 'Brands',
+                                  viewAllNeeded: true,
+                                  onTap: () {
+                                    Get.to(() => const AllBrands());
+                                  },
+                                ),
                           HomeBrands(
                             homebrands: state.homeResponse.brands,
                           ),
-                          HomeTitle(
-                            title: 'Curated For You',
-                            viewAllNeeded: true,
-                            onTap: () {
-                              Get.to(() => const AllProducts());
-                            },
-                          ),
+                          state.homeResponse.products.isEmpty
+                              ? const SizedBox()
+                              : HomeTitle(
+                                  title: 'Curated For You',
+                                  viewAllNeeded: true,
+                                  onTap: () {
+                                    Get.to(() => const AllProducts());
+                                  },
+                                ),
                           CuratedProduct(
                             curatedProducts: state.homeResponse.products,
                           ),
-                          HomeTitle(
-                            title: 'Shop By Categories',
-                            viewAllNeeded: true,
-                            onTap: () {
-                              Get.to(() => const AllCategories());
-                            },
-                          ),
+                          state.homeResponse.categories.isEmpty
+                              ? const SizedBox()
+                              : HomeTitle(
+                                  title: 'Shop By Categories',
+                                  viewAllNeeded: true,
+                                  onTap: () {
+                                    Get.to(() => const AllCategories());
+                                  },
+                                ),
                           HomeCategory(
                             categories: state.homeResponse.categories,
                           ),
