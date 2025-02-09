@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/route_manager.dart';
 import 'package:pranshal_ecommerce/features/home/presentation/blocs/home_bloc/home_page_bloc.dart';
 import 'package:pranshal_ecommerce/features/home/presentation/screens/all_categories.dart';
+import 'package:pranshal_ecommerce/features/home/presentation/screens/search_products.dart';
 import 'package:pranshal_ecommerce/features/home/presentation/screens/shimmer.dart';
 import 'package:pranshal_ecommerce/features/home/presentation/widgets/home_category.dart';
 import '../../../../core/constants/colors.dart';
@@ -48,11 +49,12 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             title: SizedBox(
               height: 40,
+            
               child: TextFormField(
                 autofocus: false,
                 controller: _searchController,
                 onTap: () {
-                  // Navigate to the search page or handle search
+                  Get.to(() => const ProductSearchPage());
                 },
                 textInputAction: TextInputAction.search,
                 decoration: InputDecoration(
@@ -101,12 +103,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                 _searchController.text != ''
                             ? GestureDetector(
                                 onTap: () {
-                                  _searchController.text == ''
-                                      ? null
-                                      : {
-                                          _searchController.clear(),
-                                          FocusScope.of(context).unfocus(),
-                                        };
+                                  // _searchController.text == ''
+                                  //     ? null
+                                  //     : {
+
+                                  //         _searchController.clear(),
+                                  //         FocusScope.of(context).unfocus(),
+                                  //       };
                                 },
                                 child: const Icon(
                                   Icons.close,
