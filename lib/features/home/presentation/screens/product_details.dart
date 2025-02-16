@@ -1,41 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:pranshal_ecommerce/core/constants/colors.dart';
+import 'package:pranshal_ecommerce/features/home/data/models/home_model.dart';
 
 class ProductDetailPage extends StatefulWidget {
-  final Map<String, dynamic> product;
+  final Product? product;
 
-  const ProductDetailPage({Key? key, required this.product}) : super(key: key);
+  const ProductDetailPage({Key? key, this.product}) : super(key: key);
 
   @override
   _ProductDetailPageState createState() => _ProductDetailPageState();
 }
 
 class _ProductDetailPageState extends State<ProductDetailPage> {
-  late Map<String, dynamic> product;
-
   @override
   void initState() {
     super.initState();
-    product = widget.product;
   }
 
-  void toggleCartStatus() {
-    setState(() {
-      product['isAddedToCart'] = !product['isAddedToCart'];
-    });
-  }
+  void toggleCartStatus() {}
 
-  void toggleWishlistStatus() {
-    setState(() {
-      product['isAddedToWishlist'] = !product['isAddedToWishlist'];
-    });
-  }
+  void toggleWishlistStatus() {}
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          product['productName'],
+          widget.product!.productName,
           style: const TextStyle(color: Colors.black),
         ),
         centerTitle: true,
@@ -53,7 +44,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               width: double.infinity,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage(product['productImage']),
+                  image: NetworkImage(widget.product!.productThumbnail),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -68,7 +59,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 children: [
                   // Product Name
                   Text(
-                    product['productName'],
+                    widget.product!.productName,
                     style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -78,7 +69,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
 
                   // Brand Name
                   Text(
-                    "Brand: ${product['brandName']}",
+                    "Brand: ${widget.product!.brandName}",
                     style: const TextStyle(
                       fontSize: 16,
                       color: Colors.grey,
@@ -88,7 +79,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
 
                   // Category
                   Text(
-                    "Category: ${product['categoryName']}",
+                    "Category: ${widget.product!.categoryName}",
                     style: const TextStyle(
                       fontSize: 16,
                       color: Colors.grey,
@@ -106,7 +97,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   ),
                   const SizedBox(height: 5),
                   Text(
-                    product['description'],
+                    widget.product!.productDescription,
                     style: const TextStyle(fontSize: 16),
                   ),
                   const SizedBox(height: 20),
@@ -115,7 +106,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   Row(
                     children: [
                       Text(
-                        "\$${product['sellPrice'].toStringAsFixed(2)}",
+                        "Rs.${widget.product!.sellPrice.toStringAsFixed(2)}",
                         style: const TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
@@ -123,9 +114,10 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         ),
                       ),
                       const SizedBox(width: 10),
-                      if (product['normalPrice'] != product['sellPrice'])
+                      if (widget.product!.normalPrice !=
+                          widget.product!.sellPrice)
                         Text(
-                          "\$${product['normalPrice'].toStringAsFixed(2)}",
+                          "Rs. ${widget.product!.normalPrice.toStringAsFixed(2)}",
                           style: const TextStyle(
                             fontSize: 18,
                             color: Colors.grey,
@@ -141,7 +133,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Available Quantity: ${product['productQuantity']}",
+                        "Available Quantity: ${widget.product!.totalProductCount}",
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -161,17 +153,14 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       Expanded(
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: product['isAddedToCart']
-                                ? Colors.grey
-                                : Colors.green,
+                            backgroundColor: primaryColor2,
                             padding: const EdgeInsets.symmetric(vertical: 16),
                           ),
                           onPressed: toggleCartStatus,
-                          child: Text(
-                            product['isAddedToCart']
-                                ? "Added to Cart"
-                                : "Add to Cart",
-                            style: const TextStyle(fontSize: 16),
+                          child: const Text(
+                            "Add to Cart",
+                            style: const TextStyle(
+                                fontSize: 16, color: whiteColor),
                           ),
                         ),
                       ),
@@ -179,16 +168,12 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       Expanded(
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: product['isAddedToWishlist']
-                                ? Colors.grey
-                                : Colors.red,
+                            backgroundColor: primaryColor4,
                             padding: const EdgeInsets.symmetric(vertical: 16),
                           ),
                           onPressed: toggleWishlistStatus,
-                          child: Text(
-                            product['isAddedToWishlist']
-                                ? "Added to Wishlist"
-                                : "Add to Wishlist",
+                          child: const Text(
+                            "Buy Now.",
                             style: const TextStyle(fontSize: 16),
                           ),
                         ),

@@ -6,6 +6,7 @@ class HomeModel {
   final List<Brand> brands;
   final List<Product> products;
   final List<FlashSaleProduct> flashSaleProducts;
+  final List<Product> recommendedProducts;
 
   HomeModel({
     required this.status,
@@ -13,6 +14,7 @@ class HomeModel {
     required this.brands,
     required this.products,
     required this.flashSaleProducts,
+    required this.recommendedProducts,
   });
 
   factory HomeModel.fromJson(Map<String, dynamic> json) {
@@ -27,6 +29,9 @@ class HomeModel {
       flashSaleProducts: (json['flashSaleProducts'] as List)
           .map((e) => FlashSaleProduct.fromJson(e))
           .toList(),
+          recommendedProducts:  (json['recommendedProducts'] as List)
+          .map((e) => Product.fromJson(e))
+          .toList()
     );
   }
 }

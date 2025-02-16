@@ -46,7 +46,7 @@ class _AllProductsState extends State<AllProducts> {
                 final product = productList[index];
                 return GestureDetector(
                   onTap: () {
-                    Get.to(() => ProductDetailPage(product: product));
+                    Get.to(() => ProductDetailPage());
                   },
                   child: Container(
                     decoration: BoxDecoration(

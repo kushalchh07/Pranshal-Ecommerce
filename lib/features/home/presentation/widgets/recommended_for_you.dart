@@ -7,16 +7,16 @@ import '../../data/models/home_model.dart';
 import '../../data/repositories/homepage_repository.dart';
 import '../screens/product_details.dart';
 
-class CuratedProduct extends StatefulWidget {
-  final List<Product> curatedProducts;
+class RecommendedForYou extends StatefulWidget {
+  final List<Product> recommendedForYou;
 
-  const CuratedProduct({super.key, required this.curatedProducts});
+  const RecommendedForYou({super.key, required this.recommendedForYou});
 
   @override
-  State<CuratedProduct> createState() => _CuratedProductState();
+  State<RecommendedForYou> createState() => _RecommendedForYouState();
 }
 
-class _CuratedProductState extends State<CuratedProduct> {
+class _RecommendedForYouState extends State<RecommendedForYou> {
   final HomePageRepository _homePageRepository = HomePageRepository();
   Future<void> onProductViewed(int userId, int productId) async {
     await _homePageRepository.logUserActivity(userId, productId, 'view');
@@ -24,7 +24,7 @@ class _CuratedProductState extends State<CuratedProduct> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.curatedProducts.isEmpty
+    return widget.recommendedForYou.isEmpty
         ? const SizedBox()
         : Column(
             children: [
@@ -34,16 +34,17 @@ class _CuratedProductState extends State<CuratedProduct> {
                   scrollDirection:
                       Axis.horizontal, // Enable horizontal scrolling
                   padding: const EdgeInsets.all(8.0),
-                  itemCount: widget.curatedProducts.length,
+                  itemCount: widget.recommendedForYou.length,
                   itemBuilder: (context, index) {
                     final product = productList[index];
                     return GestureDetector(
                       onTap: () async {
                         await onProductViewed(
                             userId,
-                            widget.curatedProducts[index]
+                            widget.recommendedForYou[index]
                                 .productId); // Navigate to product detail page or perform any action
-                        Get.to(() => ProductDetailPage(product:  widget.curatedProducts[index]));
+                        Get.to(() => ProductDetailPage(
+                            product: widget.recommendedForYou[index]));
                       },
                       child: Container(
                         margin: const EdgeInsets.only(
@@ -90,7 +91,8 @@ class _CuratedProductState extends State<CuratedProduct> {
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 8.0),
                                     child: Text(
-                                      widget.curatedProducts[index].productName,
+                                      widget
+                                          .recommendedForYou[index].productName,
                                       style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16,
@@ -109,7 +111,7 @@ class _CuratedProductState extends State<CuratedProduct> {
                                       children: [
                                         // Sell Price
                                         Text(
-                                          "\$${widget.curatedProducts[index].sellPrice.toStringAsFixed(2)}",
+                                          "Rs.${widget.recommendedForYou[index].sellPrice.toStringAsFixed(2)}",
                                           style: const TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.bold,
@@ -119,7 +121,7 @@ class _CuratedProductState extends State<CuratedProduct> {
                                         const SizedBox(width: 8),
                                         // Normal Price (with strikethrough)
                                         Text(
-                                          "\$${widget.curatedProducts[index].normalPrice.toStringAsFixed(2)}",
+                                          "Rs.${widget.recommendedForYou[index].normalPrice.toStringAsFixed(2)}",
                                           style: const TextStyle(
                                             fontSize: 14,
                                             color: Colors.grey,

@@ -27,6 +27,7 @@ class HomePageRepository {
 
   Future<void> logUserActivity(
       int userId, int productId, String actionType) async {
+    log("Logging user activity: userId=$userId, productId=$productId, actionType=$actionType");
     final response = await http.post(
       Uri.parse('$baseUrl/api/log-activity'),
       headers: {'Content-Type': 'application/json'},
@@ -37,7 +38,10 @@ class HomePageRepository {
       }),
     );
 
-    if (response.statusCode != 200) {
+    if (response.statusCode == 200) {
+      log("Successfully logged user activity");
+    } else {
+      log("Failed to log user activity: ${response.statusCode}");
       throw Exception('Failed to log user activity');
     }
   }

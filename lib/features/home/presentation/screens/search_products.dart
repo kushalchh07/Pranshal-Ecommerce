@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/route_manager.dart';
+import 'package:pranshal_ecommerce/features/home/presentation/screens/shimmer.dart';
 
 import '../../../../core/constants/colors.dart';
+import '../../../base/presentation/screens/base.dart';
 import '../blocs/product_bloc/product_bloc.dart';
 
 class ProductSearchPage extends StatefulWidget {
@@ -38,7 +40,9 @@ class _ProductSearchPageState extends State<ProductSearchPage> {
           leading: IconButton(
             onPressed: () {
               FocusScope.of(context).unfocus();
-              Get.back();
+              Get.offAll(() =>const Base(
+                    pageIndex: 0,
+                  ));
             },
             icon: Icon(
               CupertinoIcons.back,
@@ -124,7 +128,7 @@ class _ProductSearchPageState extends State<ProductSearchPage> {
         ),
         body: GestureDetector(
           onTap: () {
-             FocusScope.of(context).unfocus();
+            FocusScope.of(context).unfocus();
           },
           child: Column(
             children: [
@@ -132,12 +136,15 @@ class _ProductSearchPageState extends State<ProductSearchPage> {
                 child: BlocBuilder<ProductBloc, ProductState>(
                   builder: (context, state) {
                     if (state is ProductLoadingState) {
-                      return Center(child: CircularProgressIndicator());
+                      return const ShimmerHome();
                     }
                     if (state is ProductErrorState) {
                       return Center(child: Text('Error: ${state.error}'));
                     }
                     if (state is ProductLoadedState) {
+                      if (state.products.isEmpty) {
+                        return const Center(child: Text('No products found'));
+                      }
                       return ListView.builder(
                         itemCount: state.products.length,
                         itemBuilder: (context, index) {
@@ -149,7 +156,7 @@ class _ProductSearchPageState extends State<ProductSearchPage> {
                         },
                       );
                     }
-                    return Center(child: Text('No products found'));
+                    return const Center(child: Text('No products found'));
                   },
                 ),
               ),

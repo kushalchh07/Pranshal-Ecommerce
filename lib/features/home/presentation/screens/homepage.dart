@@ -12,6 +12,7 @@ import '../widgets/home_banner.dart';
 import '../widgets/home_brands.dart';
 import '../widgets/home_flashsale.dart';
 import '../widgets/home_products.dart';
+import '../widgets/recommended_for_you.dart';
 import '../widgets/title_home.dart';
 import 'package:badges/badges.dart' as badges;
 import 'all_brands.dart';
@@ -49,12 +50,11 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             title: SizedBox(
               height: 40,
-            
               child: TextFormField(
                 autofocus: false,
                 controller: _searchController,
                 onTap: () {
-                  Get.to(() => const ProductSearchPage());
+                  Get.offAll(() => const ProductSearchPage());
                 },
                 textInputAction: TextInputAction.search,
                 decoration: InputDecoration(
@@ -76,21 +76,24 @@ class _HomeScreenState extends State<HomeScreen> {
                       color: primaryColor, // Change the border color
                       width: 1.5, // Change the border width
                     ),
-                    borderRadius: BorderRadius.circular(7.0), // Rounded corners
+                    borderRadius:
+                        BorderRadius.circular(12.0), // Rounded corners
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(
                       color: primaryColor, // Change the border color
                       width: 1.5, // Change the border width
                     ),
-                    borderRadius: BorderRadius.circular(7.0), // Rounded corners
+                    borderRadius:
+                        BorderRadius.circular(12.0), // Rounded corners
                   ),
                   errorBorder: OutlineInputBorder(
                     borderSide: const BorderSide(
                       color: Colors.red, // Change the error border color
                       width: 1.5, // Change the error border width
                     ),
-                    borderRadius: BorderRadius.circular(7.0), // Rounded corners
+                    borderRadius:
+                        BorderRadius.circular(12.0), // Rounded corners
                   ),
                   contentPadding: EdgeInsets.zero,
                   suffixIcon: GestureDetector(
@@ -102,15 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: _searchController.text.isNotEmpty &&
                                 _searchController.text != ''
                             ? GestureDetector(
-                                onTap: () {
-                                  // _searchController.text == ''
-                                  //     ? null
-                                  //     : {
-
-                                  //         _searchController.clear(),
-                                  //         FocusScope.of(context).unfocus(),
-                                  //       };
-                                },
+                                onTap: () {},
                                 child: const Icon(
                                   Icons.close,
                                   color: Colors.black,
@@ -135,7 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       showBadge: false,
                       position: badges.BadgePosition.topEnd(top: -7, end: -5),
                       child: Icon(
-                        CupertinoIcons.bell,
+                        Icons.notifications_none_rounded,
                         size: 30,
                         color: primaryColor,
                       )),
@@ -217,6 +212,19 @@ class _HomeScreenState extends State<HomeScreen> {
                             height: 4,
                           ),
                           const HomeBanner(),
+                          state.homeResponse.recommendedProducts.isEmpty
+                              ? const SizedBox()
+                              : const HomeTitle(
+                                  title: 'Recommended For You',
+                                  viewAllNeeded: false,
+                                  fontSize: 24,
+                                ),
+                          state.homeResponse.recommendedProducts.isEmpty
+                              ? const SizedBox()
+                              : RecommendedForYou(
+                                  recommendedForYou:
+                                      state.homeResponse.recommendedProducts,
+                                ),
                           state.homeResponse.flashSaleProducts.isEmpty
                               ? const SizedBox()
                               : const HomeTitle(
@@ -224,9 +232,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                   viewAllNeeded: false,
                                   fontSize: 24,
                                 ),
-                          HomeFlashSale(
-                            flashSale: state.homeResponse.flashSaleProducts,
-                          ),
+                          state.homeResponse.flashSaleProducts.isEmpty
+                              ? const SizedBox()
+                              : HomeFlashSale(
+                                  flashSale:
+                                      state.homeResponse.flashSaleProducts,
+                                ),
                           state.homeResponse.brands.isEmpty
                               ? const SizedBox()
                               : HomeTitle(
@@ -236,9 +247,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                     Get.to(() => const AllBrands());
                                   },
                                 ),
-                          HomeBrands(
-                            homebrands: state.homeResponse.brands,
-                          ),
+                          state.homeResponse.brands.isEmpty
+                              ? const SizedBox()
+                              : HomeBrands(
+                                  homebrands: state.homeResponse.brands,
+                                ),
                           state.homeResponse.products.isEmpty
                               ? const SizedBox()
                               : HomeTitle(
@@ -248,9 +261,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                     Get.to(() => const AllProducts());
                                   },
                                 ),
-                          CuratedProduct(
-                            curatedProducts: state.homeResponse.products,
-                          ),
+                          state.homeResponse.products.isEmpty
+                              ? const SizedBox()
+                              : CuratedProduct(
+                                  curatedProducts: state.homeResponse.products,
+                                ),
                           state.homeResponse.categories.isEmpty
                               ? const SizedBox()
                               : HomeTitle(
@@ -260,9 +275,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                     Get.to(() => const AllCategories());
                                   },
                                 ),
-                          HomeCategory(
-                            categories: state.homeResponse.categories,
-                          ),
+                          state.homeResponse.categories.isEmpty
+                              ? const SizedBox()
+                              : HomeCategory(
+                                  categories: state.homeResponse.categories,
+                                ),
                           const SizedBox(
                             height: 200,
                           )
