@@ -7,7 +7,9 @@ import 'package:pranshal_ecommerce/features/authentication/data/repositories/aut
 import 'package:pranshal_ecommerce/features/authentication/presentation/bloc/login_bloc/bloc/login_bloc.dart';
 import 'package:pranshal_ecommerce/features/authentication/presentation/bloc/register_bloc/bloc/register_bloc.dart';
 import 'package:pranshal_ecommerce/features/cart/data/repositories/cart_repository.dart';
+import 'package:pranshal_ecommerce/features/home/data/repositories/brand_repository.dart';
 import 'package:pranshal_ecommerce/features/home/presentation/blocs/brand_bloc/brand_bloc.dart';
+import 'package:pranshal_ecommerce/features/home/presentation/blocs/brandproduct_bloc/brandproduct_bloc.dart';
 import 'package:pranshal_ecommerce/features/home/presentation/blocs/category_bloc/category_bloc.dart';
 import 'package:pranshal_ecommerce/features/home/presentation/blocs/home_bloc/home_page_bloc.dart';
 import 'package:pranshal_ecommerce/features/home/presentation/blocs/product_bloc/product_bloc.dart';
@@ -54,6 +56,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => CartBloc(cartRepository: CartRepository()),
+        ),
+        BlocProvider(
+          create: (context) => BrandproductBloc(BrandRepository()),
         ),
       ],
       child: BlocBuilder<ThemeCubit, ThemeState>(
