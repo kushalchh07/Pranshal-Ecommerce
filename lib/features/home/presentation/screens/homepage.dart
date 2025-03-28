@@ -244,7 +244,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                   title: 'Brands',
                                   viewAllNeeded: true,
                                   onTap: () {
-                                    Get.to(() => const AllBrands());
+                                    Get.to(() => AllBrands(
+                                          homebrands: state.homeResponse.brands,
+                                        ));
                                   },
                                 ),
                           state.homeResponse.brands.isEmpty
@@ -258,7 +260,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                   title: 'Curated For You',
                                   viewAllNeeded: true,
                                   onTap: () {
-                                    Get.to(() => const AllProducts());
+                                    Get.to(() => AllProducts(
+                                          curatedProducts:
+                                              state.homeResponse.products,
+                                        ));
                                   },
                                 ),
                           state.homeResponse.products.isEmpty
@@ -272,7 +277,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                   title: 'Shop By Categories',
                                   viewAllNeeded: true,
                                   onTap: () {
-                                    Get.to(() => const AllCategories());
+                                    Get.to(() => AllCategories(
+                                          categories:
+                                              state.homeResponse.categories,
+                                        ));
                                   },
                                 ),
                           state.homeResponse.categories.isEmpty
@@ -288,6 +296,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 }
                 if (state is HomePageError) {
                   return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Text("Something went wrong!"),
                       ElevatedButton(

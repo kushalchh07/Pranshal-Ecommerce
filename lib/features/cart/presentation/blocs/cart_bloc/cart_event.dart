@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:pranshal_ecommerce/features/home/data/models/home_model.dart';
 
 import '../../../data/models/cart_model.dart';
 

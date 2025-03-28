@@ -36,6 +36,19 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
     });
   }
 
+  /// Set the login status in shared preference
+  ///
+  /// This function stores the login status in shared preference. The key is
+  /// 'isLoggedIn' and the value is a boolean.
+  ///
+  /// This function is used in the login process to store the login status after
+  /// a successful login.
+  ///
+  Future<void> setLoginStatus(bool status) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isLoggedIn', status);
+  }
+
   login() async {
     if (formKey.currentState!.validate()) {
       FocusManager.instance.primaryFocus?.unfocus();
@@ -354,8 +367,10 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                           )),
-                      onPressed: () {
+                      onPressed: () async {
                         // login();
+                        //as of now this setlogin status goes here otherwise, when the login successfull state is emitted then we set the login statuss to true.
+                        await setLoginStatus(true);
                         Get.to(() => const Base());
                       },
                       child: const Row(

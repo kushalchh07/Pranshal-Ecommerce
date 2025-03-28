@@ -4,11 +4,14 @@ import 'package:pranshal_ecommerce/features/home/presentation/screens/product_de
 
 import '../../../../core/constants/colors.dart';
 import '../../data/Storage/for_you_data.dart';
+import '../../data/models/home_model.dart';
 
 class AllProducts extends StatefulWidget {
+  final List<Product> curatedProducts;
   const AllProducts({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+    required this.curatedProducts,
+  });
 
   @override
   State<AllProducts> createState() => _AllProductsState();
@@ -35,7 +38,7 @@ class _AllProductsState extends State<AllProducts> {
           Expanded(
             child: GridView.builder(
               padding: const EdgeInsets.all(8.0),
-              itemCount: productList.length,
+              itemCount: widget.curatedProducts.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2, // Two items per row
                 crossAxisSpacing: 8.0,
@@ -43,7 +46,6 @@ class _AllProductsState extends State<AllProducts> {
                 childAspectRatio: 0.75, // Adjust height/width ratio of items
               ),
               itemBuilder: (context, index) {
-                final product = productList[index];
                 return GestureDetector(
                   onTap: () {
                     Get.to(() => ProductDetailPage());
@@ -69,8 +71,8 @@ class _AllProductsState extends State<AllProducts> {
                             borderRadius: const BorderRadius.vertical(
                               top: Radius.circular(7),
                             ),
-                            child: Image.asset(
-                              product['productImage'],
+                            child: Image.network(
+                              widget.curatedProducts[index].productThumbnail,
                               fit: BoxFit.cover,
                               width: double.infinity,
                             ),
@@ -82,7 +84,7 @@ class _AllProductsState extends State<AllProducts> {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
                           child: Text(
-                            product['productName'],
+                            widget.curatedProducts[index].productName,
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
@@ -100,7 +102,7 @@ class _AllProductsState extends State<AllProducts> {
                             children: [
                               // Sell Price
                               Text(
-                                "\$${product['sellPrice'].toStringAsFixed(2)}",
+                                "Rs.${widget.curatedProducts[index].sellPrice.toStringAsFixed(2)}",
                                 style: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
@@ -110,7 +112,7 @@ class _AllProductsState extends State<AllProducts> {
                               const SizedBox(width: 8),
                               // Normal Price (with strikethrough)
                               Text(
-                                "\$${product['normalPrice'].toStringAsFixed(2)}",
+                                "Rs.${widget.curatedProducts[index].normalPrice.toStringAsFixed(2)}",
                                 style: const TextStyle(
                                   fontSize: 14,
                                   color: Colors.grey,

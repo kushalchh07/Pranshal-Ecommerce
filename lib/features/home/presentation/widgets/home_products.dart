@@ -43,7 +43,8 @@ class _CuratedProductState extends State<CuratedProduct> {
                             userId,
                             widget.curatedProducts[index]
                                 .productId); // Navigate to product detail page or perform any action
-                        Get.to(() => ProductDetailPage(product:  widget.curatedProducts[index]));
+                        Get.to(() => ProductDetailPage(
+                            product: widget.curatedProducts[index]));
                       },
                       child: Container(
                         margin: const EdgeInsets.only(
@@ -69,13 +70,22 @@ class _CuratedProductState extends State<CuratedProduct> {
                                 borderRadius: const BorderRadius.vertical(
                                   top: Radius.circular(7),
                                 ),
-                                child: Image.asset(
-                                  product['productImage'],
+                                child: Image.network(
+                                  widget
+                                      .curatedProducts[index].productThumbnail,
+                                  width: 150,
+                                  height: 150,
                                   fit: BoxFit.cover,
-                                  width:
-                                      150, // Adjust width for horizontal view
-                                  height:
-                                      150, // Adjust height for horizontal view
+                                  loadingBuilder:
+                                      (context, child, loadingProgress) {
+                                    if (loadingProgress == null) return child;
+                                    return const Center(
+                                        child: CircularProgressIndicator());
+                                  },
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return const Icon(Icons.error,
+                                        size: 50, color: Colors.red);
+                                  },
                                 ),
                               ),
                             ),
@@ -109,7 +119,7 @@ class _CuratedProductState extends State<CuratedProduct> {
                                       children: [
                                         // Sell Price
                                         Text(
-                                          "\$${widget.curatedProducts[index].sellPrice.toStringAsFixed(2)}",
+                                          "Rs.${widget.curatedProducts[index].sellPrice.toStringAsFixed(2)}",
                                           style: const TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.bold,
@@ -119,7 +129,7 @@ class _CuratedProductState extends State<CuratedProduct> {
                                         const SizedBox(width: 8),
                                         // Normal Price (with strikethrough)
                                         Text(
-                                          "\$${widget.curatedProducts[index].normalPrice.toStringAsFixed(2)}",
+                                          "Rs.${widget.curatedProducts[index].normalPrice.toStringAsFixed(2)}",
                                           style: const TextStyle(
                                             fontSize: 14,
                                             color: Colors.grey,

@@ -8,16 +8,16 @@ import '../../../cart/data/models/cart_model.dart';
 import '../../../cart/presentation/blocs/cart_bloc/cart_bloc.dart';
 import '../../../cart/presentation/blocs/cart_bloc/cart_event.dart';
 
-class ProductDetailPage extends StatefulWidget {
-  final Product? product;
+class FlashSaleProductDetails extends StatefulWidget {
+  final FlashSaleProduct? product;
 
-  const ProductDetailPage({Key? key, this.product}) : super(key: key);
+  const FlashSaleProductDetails({Key? key, this.product}) : super(key: key);
 
   @override
-  _ProductDetailPageState createState() => _ProductDetailPageState();
+  _FlashSaleProductDetailsState createState() => _FlashSaleProductDetailsState();
 }
 
-class _ProductDetailPageState extends State<ProductDetailPage> {
+class _FlashSaleProductDetailsState extends State<FlashSaleProductDetails> {
   @override
   void initState() {
     super.initState();

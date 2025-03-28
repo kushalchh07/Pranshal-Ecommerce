@@ -4,6 +4,7 @@ import 'package:get/route_manager.dart';
 import 'package:pranshal_ecommerce/core/constants/colors.dart';
 import 'package:pranshal_ecommerce/features/home/data/models/home_model.dart';
 
+import '../../../../core/constants/strings.dart';
 import '../../data/Storage/categories_data.dart';
 
 class HomeCategory extends StatefulWidget {
@@ -32,18 +33,36 @@ class _HomeCategoryState extends State<HomeCategory> {
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
                     children: [
-                      Container(
-                        height: 70,
-                        width: 70,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: greyColor),
-                          borderRadius: BorderRadius.circular(100),
-                          image: DecorationImage(
-                            image: AssetImage(categoryList[index]["image"]),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
+                     Container(
+  height: 70,
+  width: 70,
+  decoration: BoxDecoration(
+    border: Border.all(color: greyColor),
+    borderRadius: BorderRadius.circular(100),
+  ),
+  child: ClipRRect(
+    borderRadius: BorderRadius.circular(100), // Ensures rounded image
+    child: Image.network(
+      widget.categories[index].categoryThumbnail,
+      fit: BoxFit.cover,
+      errorBuilder: (context, error, stackTrace) {
+        // Show an asset image if the network image fails
+        return Image.asset(
+          imagePlaceholder, // Replace with your asset image path
+          fit: BoxFit.cover,
+        );
+      },
+      loadingBuilder: (context, child, loadingProgress) {
+        if (loadingProgress == null) return child;
+        return Image.asset(
+          imagePlaceholder, // Placeholder while loading
+          fit: BoxFit.cover,
+        );
+      },
+    ),
+  ),
+),
+
                       const SizedBox(height: 5),
                       Text(
                         widget.categories[index].categoryName,

@@ -1,12 +1,11 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:http/http.dart' as http;
 
 import '../../../../core/constants/strings.dart';
 import '../models/cart_model.dart';
 
 class CartRepository {
-  
-
   // Add product to cart
   Future<void> addToCart(CartItem cartItem) async {
     final response = await http.post(
@@ -22,9 +21,10 @@ class CartRepository {
 
   // Fetch all cart items
   Future<List<CartItem>> getCartItems(int userId) async {
-    final response = await http.get(Uri.parse("$baseUrl/api/carts$userId"));
-
+    final response = await http.get(Uri.parse("$baseUrl/api/carts/$userId"));
+    log(response.toString());
     if (response.statusCode == 200) {
+      // log("staus 200 cha");
       final data = jsonDecode(response.body);
       return (data['cart_items'] as List)
           .map((item) => CartItem.fromJson(item))

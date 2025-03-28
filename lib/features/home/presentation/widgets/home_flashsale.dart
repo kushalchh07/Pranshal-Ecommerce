@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
+import 'package:pranshal_ecommerce/features/home/presentation/screens/flash_sale_product_details.dart';
+import 'package:pranshal_ecommerce/features/home/presentation/screens/product_details.dart';
 
 import '../../../../core/constants/colors.dart';
 import '../../data/models/home_model.dart';
@@ -75,15 +78,22 @@ class _HomeFlashSaleState extends State<HomeFlashSale> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
-                            height: 120,
-                            width: 120,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              image: DecorationImage(
-                                image:
-                                    AssetImage(flashSaleList[index]["image"]),
-                                fit: BoxFit.cover,
+                          GestureDetector(
+                            onTap: () async {
+                              // Navigate to product detail page or perform any action
+                              Get.to(() => FlashSaleProductDetails(
+                                  product: widget.flashSale[index]));
+                            },
+                            child: Container(
+                              height: 120,
+                              width: 120,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                image: DecorationImage(
+                                  image: NetworkImage(
+                                      widget.flashSale[index].productThumbnail),
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ),
                           ),

@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/route_manager.dart';
 import 'package:pranshal_ecommerce/core/constants/colors.dart';
+import 'package:pranshal_ecommerce/core/constants/user_data.dart';
+
+import '../blocs/cart_bloc/cart_bloc.dart';
+import '../blocs/cart_bloc/cart_event.dart';
+import '../blocs/cart_bloc/cart_state.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -83,6 +89,13 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    BlocProvider.of<CartBloc>(context).add(FetchCartEvent(userId));
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -94,161 +107,182 @@ class _CartScreenState extends State<CartScreen> {
           style: TextStyle(color: myBlack, fontWeight: FontWeight.bold),
         ),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              padding: const EdgeInsets.all(10),
-              itemCount: productList.length,
-              itemBuilder: (context, index) {
-                final product = productList[index];
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: [
-                      // Checkbox to select product
-                      Checkbox(
-                        value: product['isChecked'],
-                        onChanged: (value) =>
-                            _toggleProductSelection(index, value),
-                      ),
-                      // Product Image
-                      Image.asset(
-                        product['productImage'],
-                        width: 60,
-                        height: 60,
-                        fit: BoxFit.cover,
-                      ),
-                      const SizedBox(width: 16),
-                      // Product Details
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+      body: BlocConsumer<CartBloc, CartState>(
+        listener: (context, state) {
+          // TODO: implement listener
+        },
+        builder: (context, state) {
+          if (state is CartLoading) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (state is CartLoaded) {
+            return Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    padding: const EdgeInsets.all(10),
+                    itemCount: productList.length,
+                    itemBuilder: (context, index) {
+                      final product = productList[index];
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
                           children: [
-                            Text(
-                              product['productName'],
-                              style: const TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold),
+                            // Checkbox to select product
+                            Checkbox(
+                              value: product['isChecked'],
+                              onChanged: (value) =>
+                                  _toggleProductSelection(index, value),
                             ),
-                            const SizedBox(height: 4),
-                            Text(
-                              product['categoryName'],
-                              style: const TextStyle(
-                                  fontSize: 14, color: Colors.grey),
+                            // Product Image
+                            Image.asset(
+                              product['productImage'],
+                              width: 60,
+                              height: 60,
+                              fit: BoxFit.cover,
                             ),
-                            const SizedBox(height: 4),
-                            Text(
-                              '\$${product['sellPrice']}',
-                              style: const TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.green),
+                            const SizedBox(width: 16),
+                            // Product Details
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    product['productName'],
+                                    style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    product['categoryName'],
+                                    style: const TextStyle(
+                                        fontSize: 14, color: Colors.grey),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    '\$${product['sellPrice']}',
+                                    style: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.green),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(width: 16),
+                            // Quantity Selector
+                            Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    IconButton(
+                                      onPressed: () => _decreaseQuantity(index),
+                                      icon: const Icon(
+                                          Icons.remove_circle_outline),
+                                      color: primaryColor,
+                                    ),
+                                    Text(
+                                      '${product['quantity']}',
+                                      style: const TextStyle(fontSize: 16),
+                                    ),
+                                    IconButton(
+                                      onPressed: () => _increaseQuantity(index),
+                                      icon:
+                                          const Icon(Icons.add_circle_outline),
+                                      color: primaryColor,
+                                    ),
+                                  ],
+                                ),
+                                Text(
+                                  "Quantity",
+                                  style: TextStyle(
+                                      fontSize: 14, color: primaryColor),
+                                ),
+                              ],
                             ),
                           ],
                         ),
-                      ),
-                      const SizedBox(width: 16),
-                      // Quantity Selector
-                      Column(
+                      );
+                    },
+                  ),
+                ),
+                // Bottom Section
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 2, vertical: 15),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Row(
-                            children: [
-                              IconButton(
-                                onPressed: () => _decreaseQuantity(index),
-                                icon: const Icon(Icons.remove_circle_outline),
-                                color: primaryColor,
-                              ),
-                              Text(
-                                '${product['quantity']}',
-                                style: const TextStyle(fontSize: 16),
-                              ),
-                              IconButton(
-                                onPressed: () => _increaseQuantity(index),
-                                icon: const Icon(Icons.add_circle_outline),
-                                color: primaryColor,
-                              ),
-                            ],
+                          // Select All Checkbox
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Checkbox(
+                            value: selectAll,
+                            onChanged: _toggleSelectAll,
+                          ),
+                          const Text(
+                            "All",
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.w600),
+                          ),
+
+                          // Total Price
+                          const SizedBox(
+                            width: 30,
                           ),
                           Text(
-                            "Quantity",
-                            style: TextStyle(fontSize: 14, color: primaryColor),
+                            "Total: \$${_calculateTotalPrice().toStringAsFixed(2)}",
+                            style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.green),
+                          ),
+                          const Spacer(), // Checkout Button
+                          SizedBox(
+                            height: 45,
+                            width: Get.width * 0.4,
+                            child: Center(
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: primaryColor,
+                                  // padding: const EdgeInsets.symmetric(vertical: 15),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                ),
+                                onPressed: _calculateTotalPrice() > 0
+                                    ? () {
+                                        // Handle checkout logic
+                                      }
+                                    : null,
+                                child: const Text(
+                                  'Checkout',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: whiteColor),
+                                ),
+                              ),
+                            ),
                           ),
                         ],
                       ),
                     ],
                   ),
-                );
-              },
-            ),
-          ),
-          // Bottom Section
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 15),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    // Select All Checkbox
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Checkbox(
-                      value: selectAll,
-                      onChanged: _toggleSelectAll,
-                    ),
-                    const Text(
-                      "All",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-                    ),
-
-                    // Total Price
-                    const SizedBox(
-                      width: 30,
-                    ),
-                    Text(
-                      "Total: \$${_calculateTotalPrice().toStringAsFixed(2)}",
-                      style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.green),
-                    ),
-                    const Spacer(), // Checkout Button
-                    SizedBox(
-                      height: 45,
-                      width: Get.width * 0.4,
-                      child: Center(
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: primaryColor,
-                            // padding: const EdgeInsets.symmetric(vertical: 15),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                          ),
-                          onPressed: _calculateTotalPrice() > 0
-                              ? () {
-                                  // Handle checkout logic
-                                }
-                              : null,
-                          child: const Text(
-                            'Checkout',
-                            style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: whiteColor),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
                 ),
               ],
-            ),
-          ),
-        ],
+            );
+          }
+          if (state is CartError) {
+            return Center(child: Text(state.message));
+          }
+          return const Center(child: CircularProgressIndicator());
+        },
       ),
     );
   }

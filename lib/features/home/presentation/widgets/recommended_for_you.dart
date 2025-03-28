@@ -70,13 +70,22 @@ class _RecommendedForYouState extends State<RecommendedForYou> {
                                 borderRadius: const BorderRadius.vertical(
                                   top: Radius.circular(7),
                                 ),
-                                child: Image.asset(
-                                  product['productImage'],
+                                child: Image.network(
+                                  widget.recommendedForYou[index]
+                                      .productThumbnail,
+                                  width: 150,
+                                  height: 150,
                                   fit: BoxFit.cover,
-                                  width:
-                                      150, // Adjust width for horizontal view
-                                  height:
-                                      150, // Adjust height for horizontal view
+                                  loadingBuilder:
+                                      (context, child, loadingProgress) {
+                                    if (loadingProgress == null) return child;
+                                    return Center(
+                                        child: CircularProgressIndicator());
+                                  },
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return Icon(Icons.error,
+                                        size: 50, color: Colors.red);
+                                  },
                                 ),
                               ),
                             ),

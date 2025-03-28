@@ -4,9 +4,11 @@ import 'package:get/route_manager.dart';
 
 import '../../../../core/constants/colors.dart';
 import '../../data/Storage/categories_data.dart';
+import '../../data/models/home_model.dart';
 
 class AllCategories extends StatefulWidget {
-  const AllCategories({super.key});
+  final List<Category> categories;
+  const AllCategories({super.key, required this.categories});
 
   @override
   State<AllCategories> createState() => _AllCategoriesState();
@@ -32,7 +34,8 @@ class _AllCategoriesState extends State<AllCategories> {
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: GridView.builder(
           padding: const EdgeInsets.all(10),
-          itemCount: categoryList.length, // Dynamically show all categories
+          itemCount:
+              widget.categories.length, // Dynamically show all categories
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2, // Two items per row
             crossAxisSpacing: 10, // Horizontal spacing between items
@@ -50,7 +53,8 @@ class _AllCategoriesState extends State<AllCategories> {
                     borderRadius:
                         BorderRadius.circular(7), // Max 7 border radius
                     image: DecorationImage(
-                      image: AssetImage(categoryList[index]["image"]),
+                      image: NetworkImage(
+                          widget.categories[index].categoryThumbnail),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -58,7 +62,7 @@ class _AllCategoriesState extends State<AllCategories> {
                 const SizedBox(height: 5),
                 Expanded(
                   child: Text(
-                    categoryList[index]["name"],
+                    widget.categories[index].categoryName,
                     style: const TextStyle(
                         fontWeight: FontWeight.w600, fontSize: 18),
                     textAlign: TextAlign.center,
