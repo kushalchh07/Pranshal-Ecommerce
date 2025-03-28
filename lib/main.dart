@@ -1,4 +1,5 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get_navigation/get_navigation.dart';
@@ -11,12 +12,14 @@ import 'package:pranshal_ecommerce/features/home/data/repositories/brand_reposit
 import 'package:pranshal_ecommerce/features/home/presentation/blocs/brand_bloc/brand_bloc.dart';
 import 'package:pranshal_ecommerce/features/home/presentation/blocs/brandproduct_bloc/brandproduct_bloc.dart';
 import 'package:pranshal_ecommerce/features/home/presentation/blocs/category_bloc/category_bloc.dart';
+import 'package:pranshal_ecommerce/features/home/presentation/blocs/category_product_bloc/categoryproduct_bloc.dart';
 import 'package:pranshal_ecommerce/features/home/presentation/blocs/home_bloc/home_page_bloc.dart';
 import 'package:pranshal_ecommerce/features/home/presentation/blocs/product_bloc/product_bloc.dart';
 
 import 'core/navigation/routes/app_router.dart';
 import 'core/theme/app_theme.dart';
 import 'features/cart/presentation/blocs/cart_bloc/cart_bloc.dart';
+import 'features/home/data/repositories/category_repository.dart';
 import 'features/internet/data/bloc/internet_bloc.dart';
 
 void main() {
@@ -59,6 +62,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => BrandproductBloc(BrandRepository()),
+        ),
+        BlocProvider(
+          create: (context) => CategoryproductBloc(CategoryRepository()),
         ),
       ],
       child: BlocBuilder<ThemeCubit, ThemeState>(

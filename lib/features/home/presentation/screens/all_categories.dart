@@ -5,6 +5,7 @@ import 'package:get/route_manager.dart';
 import '../../../../core/constants/colors.dart';
 import '../../data/Storage/categories_data.dart';
 import '../../data/models/home_model.dart';
+import 'category_wise_products.dart';
 
 class AllCategories extends StatefulWidget {
   final List<Category> categories;
@@ -43,32 +44,40 @@ class _AllCategoriesState extends State<AllCategories> {
             childAspectRatio: 1, // Keep items square (1:1 aspect ratio)
           ),
           itemBuilder: (context, index) {
-            return Column(
-              children: [
-                Container(
-                  height: Get.height * 0.16, // Adjust dynamically
-                  width: MediaQuery.of(context).size.width * 0.4,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: greyColor),
-                    borderRadius:
-                        BorderRadius.circular(7), // Max 7 border radius
-                    image: DecorationImage(
-                      image: NetworkImage(
-                          widget.categories[index].categoryThumbnail),
-                      fit: BoxFit.cover,
+            return GestureDetector(
+              onTap: () {
+                Get.to(() => CategoryWiseProducts(
+                      categoryId: widget.categories[index].categoryId,
+                      categoryName: widget.categories[index].categoryName,
+                    ));
+              },
+              child: Column(
+                children: [
+                  Container(
+                    height: Get.height * 0.16, // Adjust dynamically
+                    width: MediaQuery.of(context).size.width * 0.4,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: greyColor),
+                      borderRadius:
+                          BorderRadius.circular(7), // Max 7 border radius
+                      image: DecorationImage(
+                        image: NetworkImage(
+                            widget.categories[index].categoryThumbnail),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 5),
-                Expanded(
-                  child: Text(
-                    widget.categories[index].categoryName,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.w600, fontSize: 18),
-                    textAlign: TextAlign.center,
+                  const SizedBox(height: 5),
+                  Expanded(
+                    child: Text(
+                      widget.categories[index].categoryName,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.w600, fontSize: 18),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             );
           },
         ),
