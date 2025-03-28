@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/route_manager.dart';
 
 import '../blocs/brandproduct_bloc/brandproduct_bloc.dart';
+import 'product_details.dart';
 
 class BrandWiseProducts extends StatefulWidget {
   final String brandName;
@@ -53,7 +54,9 @@ class _BrandWiseProductsState extends State<BrandWiseProducts> {
                           itemBuilder: (context, index) {
                             return GestureDetector(
                               onTap: () {
-                                // Get.to(() => ProductDetailPage());
+                                Get.to(() => ProductDetailPage(
+                                      product: state.brandProducts[index],
+                                    ));
                               },
                               child: Container(
                                 decoration: BoxDecoration(
