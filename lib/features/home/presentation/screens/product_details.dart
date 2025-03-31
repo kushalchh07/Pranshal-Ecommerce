@@ -145,7 +145,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               ),
               onPressed: () {
                 Navigator.pop(context);
-                _confirmPurchase();
+                _confirmPurchase(widget.product!, _quantity,
+                    widget.product!.sellPrice * _quantity);
               },
               child: const Text("Confirm Purchase",
                   style: TextStyle(fontSize: 16, color: Colors.white)),
@@ -157,12 +158,12 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   }
 
   /// Placeholder function for confirming the purchase
-  void _confirmPurchase() {
-
-
-
-    Get.to(() => PaymentConfirmationScreen());
-   
+  void _confirmPurchase(Product product, int quantity,double totalAmount) {
+    Get.to(() => PaymentConfirmationScreen(
+          product: product,
+          quantity: quantity,
+          totalAmount: totalAmount,
+        ));
   }
 
   @override

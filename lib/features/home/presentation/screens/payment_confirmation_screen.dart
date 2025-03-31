@@ -1,9 +1,25 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:pranshal_ecommerce/core/constants/colors.dart';
-
+import '../../../../core/constants/user_data.dart';
+import '../../../cart/data/models/order_cart_model.dart';
+import '../../data/models/home_model.dart';
+import '../blocs/order_bloc/order_bloc.dart';
 import 'map_location_picker.dart';
 
 class PaymentConfirmationScreen extends StatefulWidget {
+  final Product product;
+  final int quantity;
+  final double totalAmount;
+
+  const PaymentConfirmationScreen(
+      {super.key,
+      required this.product,
+      required this.quantity,
+      required this.totalAmount});
+
   @override
   _PaymentConfirmationScreenState createState() =>
       _PaymentConfirmationScreenState();
@@ -62,9 +78,22 @@ class _PaymentConfirmationScreenState extends State<PaymentConfirmationScreen> {
 
   void _confirmPurchase() {
     if (selectedPaymentMethod != null && selectedLocation != null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Purchase Successful!")),
+      final order = Order(
+        userId: userId,
+        totalAmount: widget.product.sellPrice, // Example total
+        paymentMethod: selectedPaymentMethod!,
+        deliveryLocation: selectedLocation!,
+        items: [
+          OrderItem(
+              productId: widget.product.productId,
+              quantity: widget.quantity,
+              price: widget.product.sellPrice),
+        ],
       );
+      log(order.toJson().toString());
+
+      // Trigger the OrderBloc event
+      context.read<OrderBloc>().add(PlaceSingleOrder(order));
     }
   }
 
@@ -77,108 +106,173 @@ class _PaymentConfirmationScreenState extends State<PaymentConfirmationScreen> {
         elevation: 0,
         iconTheme: IconThemeData(color: Colors.black),
       ),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Location Selection
-            Text("Select Location",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            SizedBox(height: 10),
-            InkWell(
-              onTap: _selectLocation,
-              // onTap: _openMapPicker,
-              child: Container(
-                padding: EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey.shade400),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      selectedLocation ?? "Choose your delivery location",
-                      style: TextStyle(
-                          fontSize: 16,
-                          color: selectedLocation != null
-                              ? Colors.black
-                              : Colors.grey),
-                    ),
-                    Icon(Icons.location_on, color: primaryColor2),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(height: 20),
+      body: BlocConsumer<OrderBloc, OrderState>(
+        listener: (context, state) {
+          if (state is OrderSuccess) {
+            // Show success dialog
+            _showSuccessDialog();
+          } else if (state is OrderFailure) {
+            // Show error dialog with the error message
+            _showErrorDialog("Error Occured While Placing Order");
+          }
+        },
+        builder: (context, state) {
+          if (state is OrderLoading) {
+            // Show loading indicator while the order is being processed
+            return Center(
+              child: CupertinoActivityIndicator(),
+            );
+          }
 
-            // Payment Method Selection
-            Text("Select Payment Method",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            SizedBox(height: 10),
-            Column(
-              children: paymentMethods.map((method) {
-                return InkWell(
-                  onTap: () {
-                    setState(() {
-                      selectedPaymentMethod = method["name"];
-                    });
-                  },
+          return Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Location Selection
+                Text("Select Location",
+                    style:
+                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                SizedBox(height: 10),
+                InkWell(
+                  onTap: _selectLocation,
                   child: Container(
-                    margin: EdgeInsets.symmetric(vertical: 5),
                     padding: EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      border: Border.all(
-                        color: selectedPaymentMethod == method["name"]
-                            ? primaryColor2
-                            : Colors.grey.shade300,
-                        width: selectedPaymentMethod == method["name"] ? 2 : 1,
-                      ),
+                      border: Border.all(color: Colors.grey.shade400),
                       borderRadius: BorderRadius.circular(10),
-                      color: selectedPaymentMethod == method["name"]
-                          ? primaryColor2.withOpacity(0.1)
-                          : Colors.white,
                     ),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Image.asset(method["image"]!, width: 40, height: 40),
-                        SizedBox(width: 15),
-                        Text(method["name"]!,
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.w600)),
-                        Spacer(),
-                        if (selectedPaymentMethod == method["name"])
-                          Icon(Icons.check_circle, color: primaryColor2),
+                        Text(
+                          selectedLocation ?? "Choose your delivery location",
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: selectedLocation != null
+                                  ? Colors.black
+                                  : Colors.grey),
+                        ),
+                        Icon(Icons.location_on, color: primaryColor2),
                       ],
                     ),
                   ),
-                );
-              }).toList(),
-            ),
-            Spacer(),
-
-            // Purchase Button
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: selectedPaymentMethod == null
-                      ? Colors.grey
-                      : primaryColor2,
-                  padding: EdgeInsets.symmetric(vertical: 14),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)),
                 ),
-                onPressed:
-                    selectedPaymentMethod == null ? null : _confirmPurchase,
-                child: Text("Purchase",
-                    style: TextStyle(fontSize: 18, color: Colors.white)),
-              ),
+                SizedBox(height: 20),
+
+                // Payment Method Selection
+                const Text("Select Payment Method",
+                    style:
+                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                SizedBox(height: 10),
+                Column(
+                  children: paymentMethods.map((method) {
+                    return InkWell(
+                      onTap: () {
+                        setState(() {
+                          selectedPaymentMethod = method["name"];
+                        });
+                      },
+                      child: Container(
+                        margin: EdgeInsets.symmetric(vertical: 5),
+                        padding: EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: selectedPaymentMethod == method["name"]
+                                ? primaryColor2
+                                : Colors.grey.shade300,
+                            width:
+                                selectedPaymentMethod == method["name"] ? 2 : 1,
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                          color: selectedPaymentMethod == method["name"]
+                              ? primaryColor2.withOpacity(0.1)
+                              : Colors.white,
+                        ),
+                        child: Row(
+                          children: [
+                            Image.asset(method["image"]!,
+                                width: 40, height: 40),
+                            SizedBox(width: 15),
+                            Text(method["name"]!,
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w600)),
+                            Spacer(),
+                            if (selectedPaymentMethod == method["name"])
+                              Icon(Icons.check_circle, color: primaryColor2),
+                          ],
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                ),
+                Spacer(),
+
+                // Purchase Button
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: selectedPaymentMethod == null
+                          ? Colors.grey
+                          : primaryColor2,
+                      padding: EdgeInsets.symmetric(vertical: 14),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                    ),
+                    onPressed:
+                        selectedPaymentMethod == null ? null : _confirmPurchase,
+                    child: Text("Purchase",
+                        style: TextStyle(fontSize: 18, color: Colors.white)),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  // Show success dialog
+  void _showSuccessDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("Order Placed Successfully"),
+          content: Text("Your order has been placed successfully."),
+          actions: <Widget>[
+            TextButton(
+              child: Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
             ),
           ],
-        ),
-      ),
+        );
+      },
+    );
+  }
+
+  // Show error dialog
+  void _showErrorDialog(String errorMessage) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("Order Failed"),
+          content: Text(errorMessage),
+          actions: <Widget>[
+            TextButton(
+              child: Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

@@ -7,13 +7,17 @@ import 'package:pranshal_ecommerce/core/theme/ThemeCubit/theme_cubit.dart';
 import 'package:pranshal_ecommerce/features/authentication/data/repositories/authentication_repository.dart';
 import 'package:pranshal_ecommerce/features/authentication/presentation/bloc/login_bloc/bloc/login_bloc.dart';
 import 'package:pranshal_ecommerce/features/authentication/presentation/bloc/register_bloc/bloc/register_bloc.dart';
+import 'package:pranshal_ecommerce/features/cart/data/models/order_cart_model.dart';
 import 'package:pranshal_ecommerce/features/cart/data/repositories/cart_repository.dart';
+import 'package:pranshal_ecommerce/features/cart/data/repositories/order_repository.dart';
+import 'package:pranshal_ecommerce/features/cart/presentation/blocs/cart_order_bloc/cart_order_bloc.dart';
 import 'package:pranshal_ecommerce/features/home/data/repositories/brand_repository.dart';
 import 'package:pranshal_ecommerce/features/home/presentation/blocs/brand_bloc/brand_bloc.dart';
 import 'package:pranshal_ecommerce/features/home/presentation/blocs/brandproduct_bloc/brandproduct_bloc.dart';
 import 'package:pranshal_ecommerce/features/home/presentation/blocs/category_bloc/category_bloc.dart';
 import 'package:pranshal_ecommerce/features/home/presentation/blocs/category_product_bloc/categoryproduct_bloc.dart';
 import 'package:pranshal_ecommerce/features/home/presentation/blocs/home_bloc/home_page_bloc.dart';
+import 'package:pranshal_ecommerce/features/home/presentation/blocs/order_bloc/order_bloc.dart';
 import 'package:pranshal_ecommerce/features/home/presentation/blocs/product_bloc/product_bloc.dart';
 
 import 'core/navigation/routes/app_router.dart';
@@ -65,6 +69,12 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => CategoryproductBloc(CategoryRepository()),
+        ),
+        BlocProvider(
+          create: (context) => OrderBloc(OrderRepository()),
+        ),
+        BlocProvider(
+          create: (context) => CartOrderBloc(OrderRepository()),
         ),
       ],
       child: BlocBuilder<ThemeCubit, ThemeState>(
