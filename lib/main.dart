@@ -23,6 +23,7 @@ import 'package:pranshal_ecommerce/features/home/presentation/blocs/product_bloc
 import 'core/navigation/routes/app_router.dart';
 import 'core/theme/app_theme.dart';
 import 'features/cart/presentation/blocs/cart_bloc/cart_bloc.dart';
+import 'features/cart/presentation/blocs/fetch_order/fetchorder_bloc.dart';
 import 'features/home/data/repositories/category_repository.dart';
 import 'features/internet/data/bloc/internet_bloc.dart';
 
@@ -75,6 +76,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => CartOrderBloc(OrderRepository()),
+        ),
+          BlocProvider(
+          create: (context) => FetchorderBloc(OrderRepository()),
         ),
       ],
       child: BlocBuilder<ThemeCubit, ThemeState>(

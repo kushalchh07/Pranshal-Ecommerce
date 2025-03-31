@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
+import 'package:pranshal_ecommerce/features/user%20profile/presentation/screens/order_list.dart';
 
 import '../../../../core/constants/colors.dart';
 import '../widgets/location_flag_widget.dart';
@@ -34,8 +36,25 @@ class _UserProfileState extends State<UserProfile> {
           )
         ],
       ),
-      body: const Center(
-        child: Text('User Profile Screen'),
+      body: Column(
+        children: [
+          LocationFlagWidget(),
+          const Center(
+            child: Text('User Profile Screen'),
+          ),
+          ListTile(
+              onTap: () {
+                Get.to(() => const OrderListScreen(isFromProfile: true));
+              },
+              leading: Icon(
+                CupertinoIcons.person,
+                color: primaryColor,
+              ),
+              title: Text(
+                'Order list',
+                style: TextStyle(color: primaryColor),
+              ))
+        ],
       ),
     );
   }

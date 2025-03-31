@@ -43,3 +43,31 @@ class OrderItem {
     };
   }
 }
+class OrderGet {
+  final int orderId;
+  final double totalAmount;
+  final String orderStatus;
+  final String orderDate;
+  final String paymentMethod;
+  final String deliveryLocation;
+
+  OrderGet({
+    required this.orderId,
+    required this.totalAmount,
+    required this.orderStatus,
+    required this.orderDate,
+    required this.paymentMethod,
+    required this.deliveryLocation,
+  });
+
+  factory OrderGet.fromJson(Map<String, dynamic> json) {
+    return OrderGet(
+      orderId: json['order_id'],
+      totalAmount: (json['total_amount'] ?? 0).toDouble(),
+      orderStatus: json['order_status'] ?? 'pending',
+      orderDate: json['order_date'] ?? '',
+      paymentMethod: json['payment_method'] ?? '',
+      deliveryLocation: json['delivery_location'] ?? '',
+    );
+  }
+}
