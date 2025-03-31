@@ -161,7 +161,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
 
 
 
-    Get.to(() => const PaymentConfirmationScreen());
+    Get.to(() => PaymentConfirmationScreen());
    
   }
 
