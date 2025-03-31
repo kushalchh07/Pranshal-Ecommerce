@@ -53,5 +53,10 @@
 	<string>Your location is required for enhanced functionality and location-based services in the app.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Allow location access to display your country's flag and provide a personalized experience.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+    <string>We need your location to select a pinpoint location</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>We need your location access for a better experience</string>
+
 </dict>
 </plist>
