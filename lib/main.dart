@@ -11,7 +11,9 @@ import 'package:pranshal_ecommerce/features/cart/data/models/order_cart_model.da
 import 'package:pranshal_ecommerce/features/cart/data/repositories/cart_repository.dart';
 import 'package:pranshal_ecommerce/features/cart/data/repositories/order_repository.dart';
 import 'package:pranshal_ecommerce/features/cart/presentation/blocs/cart_order_bloc/cart_order_bloc.dart';
+import 'package:pranshal_ecommerce/features/home/data/models/review_model.dart';
 import 'package:pranshal_ecommerce/features/home/data/repositories/brand_repository.dart';
+import 'package:pranshal_ecommerce/features/home/data/repositories/review_repository.dart';
 import 'package:pranshal_ecommerce/features/home/presentation/blocs/brand_bloc/brand_bloc.dart';
 import 'package:pranshal_ecommerce/features/home/presentation/blocs/brandproduct_bloc/brandproduct_bloc.dart';
 import 'package:pranshal_ecommerce/features/home/presentation/blocs/category_bloc/category_bloc.dart';
@@ -19,6 +21,7 @@ import 'package:pranshal_ecommerce/features/home/presentation/blocs/category_pro
 import 'package:pranshal_ecommerce/features/home/presentation/blocs/home_bloc/home_page_bloc.dart';
 import 'package:pranshal_ecommerce/features/home/presentation/blocs/order_bloc/order_bloc.dart';
 import 'package:pranshal_ecommerce/features/home/presentation/blocs/product_bloc/product_bloc.dart';
+import 'package:pranshal_ecommerce/features/home/presentation/blocs/review_bloc/review_bloc.dart';
 
 import 'core/navigation/routes/app_router.dart';
 import 'core/theme/app_theme.dart';
@@ -77,8 +80,11 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => CartOrderBloc(OrderRepository()),
         ),
-          BlocProvider(
+        BlocProvider(
           create: (context) => FetchorderBloc(OrderRepository()),
+        ),
+        BlocProvider(
+          create: (context) => ReviewBloc(ReviewRepository()),
         ),
       ],
       child: BlocBuilder<ThemeCubit, ThemeState>(

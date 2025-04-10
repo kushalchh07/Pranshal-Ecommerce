@@ -1,6 +1,6 @@
 dynamic userId = 1;
 dynamic userToken;
-dynamic userName;
+dynamic userName = "Kushal";
 dynamic userEmail;
 dynamic userPhoneNumber;
 dynamic userPassword;
