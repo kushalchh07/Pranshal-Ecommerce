@@ -1,10 +1,10 @@
 dynamic userId = 1;
 dynamic userToken;
 dynamic userName = "Kushal";
-dynamic userEmail;
+dynamic userEmail = "example@gmail.com";
 dynamic userPhoneNumber;
 dynamic userPassword;
-dynamic userImage;
+dynamic userImage = "sdagds";
 dynamic userAddress;
 dynamic userCity;
 dynamic userState;

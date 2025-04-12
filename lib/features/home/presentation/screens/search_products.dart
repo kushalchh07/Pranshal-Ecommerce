@@ -7,6 +7,7 @@ import 'package:pranshal_ecommerce/features/home/presentation/screens/shimmer.da
 import '../../../../core/constants/colors.dart';
 import '../../../base/presentation/screens/base.dart';
 import '../blocs/product_bloc/product_bloc.dart';
+import 'product_details.dart';
 
 class ProductSearchPage extends StatefulWidget {
   const ProductSearchPage({super.key});
@@ -40,7 +41,7 @@ class _ProductSearchPageState extends State<ProductSearchPage> {
           leading: IconButton(
             onPressed: () {
               FocusScope.of(context).unfocus();
-              Get.offAll(() =>const Base(
+              Get.offAll(() => const Base(
                     pageIndex: 0,
                   ));
             },
@@ -149,9 +150,130 @@ class _ProductSearchPageState extends State<ProductSearchPage> {
                         itemCount: state.products.length,
                         itemBuilder: (context, index) {
                           final product = state.products[index];
-                          return ListTile(
-                            title: Text(product.productName),
-                            subtitle: Text(product.productDescription),
+                          return InkWell(
+                            onTap: () {
+                              Get.to(() => ProductDetailPage(
+                                    product: product,
+                                  ));
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.symmetric(
+                                  horizontal: 12, vertical: 6),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.2),
+                                    spreadRadius: 1,
+                                    blurRadius: 3,
+                                    offset: const Offset(0, 1),
+                                  ),
+                                ],
+                              ),
+                              child: Row(
+                                children: [
+                                  // Product Thumbnail
+                                  ClipRRect(
+                                    borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(10),
+                                      bottomLeft: Radius.circular(10),
+                                    ),
+                                    child: Container(
+                                      width: 100,
+                                      height: 100,
+                                      color: primaryColor4.withOpacity(0.1),
+                                      child: product.productThumbnail != null &&
+                                              product
+                                                  .productThumbnail.isNotEmpty
+                                          ? Image.network(
+                                              product.productThumbnail,
+                                              fit: BoxFit.cover,
+                                              errorBuilder:
+                                                  (context, error, stackTrace) {
+                                                return Icon(
+                                                  Icons
+                                                      .image_not_supported_outlined,
+                                                  color: primaryColor
+                                                      .withOpacity(0.3),
+                                                  size: 40,
+                                                );
+                                              },
+                                              loadingBuilder: (context, child,
+                                                  loadingProgress) {
+                                                if (loadingProgress == null)
+                                                  return child;
+                                                return Center(
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                    color: primaryColor,
+                                                    value: loadingProgress
+                                                                .expectedTotalBytes !=
+                                                            null
+                                                        ? loadingProgress
+                                                                .cumulativeBytesLoaded /
+                                                            loadingProgress
+                                                                .expectedTotalBytes!
+                                                        : null,
+                                                  ),
+                                                );
+                                              },
+                                            )
+                                          : Icon(
+                                              Icons.image_outlined,
+                                              color:
+                                                  primaryColor.withOpacity(0.3),
+                                              size: 40,
+                                            ),
+                                    ),
+                                  ),
+                                  // Product Details
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(12.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            product.productName,
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
+                                              fontFamily: 'inter',
+                                            ),
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                          const SizedBox(height: 4),
+                                          Text(
+                                            product.productDescription,
+                                            style: TextStyle(
+                                              color: Colors.grey[600],
+                                              fontSize: 13,
+                                              fontFamily: 'inter',
+                                            ),
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                          const SizedBox(height: 8),
+                                          // Product Price
+                                          Text(
+                                            "Rs.${product.sellPrice.toString()}",
+                                            style: TextStyle(
+                                              color: primaryColor,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 15,
+                                              fontFamily: 'inter',
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           );
                         },
                       );

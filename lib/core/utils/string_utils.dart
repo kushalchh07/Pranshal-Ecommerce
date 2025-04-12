@@ -15,4 +15,28 @@ class StringUtils {
     }
     return text.substring(0, maxLength) + '...';
   }
+  /// Returns the initials of the first and last name from a full name string.
+
+  String getFirstandLastNameInitals(String fullName) {
+    if (fullName.isEmpty) {
+      return 'N/A';
+    }
+    if (fullName.split(' ').length == 1) {
+      return fullName[0];
+    }
+    List<String> name = fullName.split(' ');
+    return name[0][0] + name[1][0];
+  }
+  static String convertMinutesToHoursMinutes(double minutes) {
+  final h = minutes ~/ 60;
+  final m = minutes % 60;
+  return '${h.toString().padLeft(2, '0')} hr ${m.toInt().toString().padLeft(2, '0')} min';
+}
+
+static String convertMinutesToHoursMinutesforquizes(int minutes) {
+  final h = minutes ~/ 60;
+  final m = minutes % 60;
+  return '${h.toString().padLeft(2, '0')} hr ${m.toInt().toString().padLeft(2, '0')} min';
+}
+
 }

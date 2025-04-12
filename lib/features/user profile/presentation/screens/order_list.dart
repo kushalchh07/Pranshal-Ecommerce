@@ -14,7 +14,7 @@ class OrderListScreen extends StatelessWidget {
   final bool isFromProfile;
   const OrderListScreen({
     super.key,
-    this.isFromProfile= false,
+    this.isFromProfile = false,
   });
 
   @override
@@ -24,22 +24,23 @@ class OrderListScreen extends StatelessWidget {
           FetchorderBloc(OrderRepository())..add(LoadUserOrdersEvent(userId)),
       child: Scaffold(
         appBar: AppBar(
-         
-          leading: 
-          isFromProfile? IconButton(
-            icon: const Icon(Icons.arrow_back_ios),
-            onPressed: () => Get.back(),
-          ):
-          
-          GestureDetector(
-              onTap: () {
-                Get.offAll(() => const Base(
-                      pageIndex: 0,
-                    ));
-              },
-              child: const Text("Home",
-                  style: TextStyle(color: whiteColor, fontSize: 20))),
-          backgroundColor: primaryColor,
+          leading: isFromProfile
+              ? IconButton(
+                  icon: const Icon(
+                    Icons.arrow_back_ios,
+                    color: myBlack,
+                  ),
+                  onPressed: () => Get.back(),
+                )
+              : GestureDetector(
+                  onTap: () {
+                    Get.offAll(() => const Base(
+                          pageIndex: 0,
+                        ));
+                  },
+                  child: const Text("Home",
+                      style: TextStyle(color: whiteColor, fontSize: 20))),
+          backgroundColor: isFromProfile ? whiteColor : primaryColor,
         ),
         body: BlocBuilder<FetchorderBloc, FetchorderState>(
           builder: (context, state) {
@@ -66,7 +67,7 @@ class OrderListScreen extends StatelessWidget {
                       title: Text("Order #${order.orderId}"),
                       subtitle: Text("Status: ${order.orderStatus}"),
                       trailing:
-                          Text("\$${order.totalAmount.toStringAsFixed(2)}"),
+                          Text("Rs.${order.totalAmount.toStringAsFixed(2)}"),
                       onTap: () {
                         Navigator.push(
                           context,

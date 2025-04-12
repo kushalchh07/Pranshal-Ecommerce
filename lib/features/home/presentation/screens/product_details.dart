@@ -13,6 +13,10 @@ import 'package:pranshal_ecommerce/core/constants/user_data.dart';
 import 'package:pranshal_ecommerce/features/home/presentation/blocs/review_bloc/review_bloc.dart';
 import 'package:pranshal_ecommerce/features/home/presentation/blocs/review_bloc/review_state.dart';
 
+import '../../../cart/data/models/cart_model.dart';
+import '../../../cart/presentation/blocs/cart_bloc/cart_bloc.dart';
+import '../../../cart/presentation/blocs/cart_bloc/cart_event.dart';
+import '../../../cart/presentation/blocs/cart_bloc/cart_state.dart';
 import '../../../internet/presentation/internet_lost_screen.dart';
 import '../../data/models/home_model.dart';
 import '../../data/models/review_model.dart';
@@ -391,17 +395,72 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                     // Buy Now Button
                     Row(
                       children: [
-                        Expanded(
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: primaryColor2,
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 16)),
-                            onPressed: () {},
-                            child: const Text("Add to Cart",
-                                style: TextStyle(
-                                    fontSize: 16, color: Colors.white)),
-                          ),
+                        BlocConsumer<CartBloc, CartState>(
+                          listener: (context, state) {
+                            if (state is CartSuccess) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                    backgroundColor: greenColor,
+                                    content: const Text(
+                                      'Added to cart successfully!',
+                                      style: TextStyle(color: Colors.white),
+                                    )),
+                              );
+                            } else if (state is CartError) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                    backgroundColor: Colors.red,
+                                    content: Text('Error: ${state.message}')),
+                              );
+                            }
+                          },
+                          builder: (context, state) {
+                            if (state is CartLoading) {
+                              return Expanded(
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor: primaryColor2,
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 16)),
+                                  onPressed: () {},
+                                  child: const CupertinoActivityIndicator(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              );
+                            }
+                            return Expanded(
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: primaryColor2,
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 16)),
+                                onPressed: () {
+                                  final cartItem = CartItem(
+                                    userId: userId,
+                                    productId: widget.product!.productId,
+                                    productName: widget.product!.productName,
+                                    productThumbnail:
+                                        widget.product!.productThumbnail,
+                                    productDescription:
+                                        widget.product!.productDescription,
+                                    normalPrice: widget.product!.normalPrice,
+                                    sellPrice: widget.product!.sellPrice,
+                                    discountPercentage: 10,
+                                    discountedPrice: 0,
+                                    quantity: 1,
+                                  );
+                                  context
+                                      .read<CartBloc>()
+                                      .add(AddToCartEvent(cartItem));
+                                },
+                                child: const Text(
+                                  "Add to Cart",
+                                  style: TextStyle(color: whiteColor),
+                                ),
+                              ),
+                            );
+                          },
                         ),
                         const SizedBox(width: 10),
                         Expanded(
@@ -512,12 +571,6 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                     const SizedBox(height: 20),
 
                     // Display reviews
-                    const Text("Customer Reviews",
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold)),
-                    const SizedBox(height: 10),
-
-                    // Review List
                     BlocBuilder<ReviewBloc, ReviewState>(
                       bloc: reviewBloc,
                       builder: (context, state) {
@@ -529,74 +582,139 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                             ),
                           );
                         } else if (state is ReviewLoaded) {
-                          if (state.reviews.isEmpty) {
-                            return const Padding(
-                              padding: EdgeInsets.all(20.0),
-                              child: Center(
-                                child: Text(
-                                  "No reviews yet. Be the first to review!",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                              ),
-                            );
+                          // Calculate average rating
+                          double averageRating = 0;
+                          if (state.reviews.isNotEmpty) {
+                            double totalRating = state.reviews
+                                .fold(0, (sum, review) => sum + review.rating);
+                            averageRating = totalRating / state.reviews.length;
                           }
 
                           return Column(
-                            children: state.reviews.map((review) {
-                              return Card(
-                                margin: const EdgeInsets.symmetric(vertical: 6),
-                                child: ListTile(
-                                  leading: CircleAvatar(
-                                    backgroundColor:
-                                        primaryColor2.withOpacity(0.2),
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Display reviews heading with average rating
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Text(
+                                    "Customer Reviews",
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  if (state.reviews.isNotEmpty)
+                                    Row(
+                                      children: [
+                                        Text(
+                                          "${averageRating.toStringAsFixed(1)}",
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.amber.shade800,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 4),
+                                        RatingBarIndicator(
+                                          rating: averageRating,
+                                          itemBuilder: (context, _) =>
+                                              const Icon(
+                                            Icons.star,
+                                            color: Colors.amber,
+                                          ),
+                                          itemCount: 5,
+                                          itemSize: 16.0,
+                                          direction: Axis.horizontal,
+                                        ),
+                                        const SizedBox(width: 4),
+                                        Text(
+                                          "(${state.reviews.length})",
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.grey.shade600,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                ],
+                              ),
+                              const SizedBox(height: 10),
+
+                              // Review List
+                              if (state.reviews.isEmpty)
+                                const Padding(
+                                  padding: EdgeInsets.all(20.0),
+                                  child: Center(
                                     child: Text(
-                                      review.userName.isNotEmpty
-                                          ? review.userName[0].toUpperCase()
-                                          : 'G',
+                                      "No reviews yet. Be the first to review!",
                                       style: TextStyle(
-                                        color: primaryColor2,
-                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16,
+                                        color: Colors.grey,
                                       ),
                                     ),
                                   ),
-                                  title: Row(
-                                    children: [
-                                      Text(
-                                        review.userName,
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      const SizedBox(width: 8),
-                                      RatingBarIndicator(
-                                        rating: review.rating,
-                                        itemBuilder: (context, _) => const Icon(
-                                          Icons.star,
-                                          color: Colors.amber,
+                                )
+                              else
+                                Column(
+                                  children: state.reviews.map((review) {
+                                    return Card(
+                                      margin: const EdgeInsets.symmetric(
+                                          vertical: 6),
+                                      child: ListTile(
+                                        leading: CircleAvatar(
+                                          backgroundColor:
+                                              primaryColor2.withOpacity(0.2),
+                                          child: Text(
+                                            review.userName.isNotEmpty
+                                                ? review.userName[0]
+                                                    .toUpperCase()
+                                                : 'G',
+                                            style: TextStyle(
+                                              color: primaryColor2,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
                                         ),
-                                        itemCount: 5,
-                                        itemSize: 16.0,
-                                        direction: Axis.horizontal,
+                                        title: Row(
+                                          children: [
+                                            Text(
+                                              review.userName,
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            const SizedBox(width: 8),
+                                            RatingBarIndicator(
+                                              rating: review.rating,
+                                              itemBuilder: (context, _) =>
+                                                  const Icon(
+                                                Icons.star,
+                                                color: Colors.amber,
+                                              ),
+                                              itemCount: 5,
+                                              itemSize: 16.0,
+                                              direction: Axis.horizontal,
+                                            ),
+                                          ],
+                                        ),
+                                        subtitle: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            const SizedBox(height: 4),
+                                            Text(
+                                              review.comment,
+                                              style:
+                                                  const TextStyle(fontSize: 14),
+                                            ),
+                                          ],
+                                        ),
+                                        isThreeLine: true,
                                       ),
-                                    ],
-                                  ),
-                                  subtitle: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      const SizedBox(height: 4),
-                                      Text(
-                                        review.comment,
-                                        style: const TextStyle(fontSize: 14),
-                                      ),
-                                    ],
-                                  ),
-                                  isThreeLine: true,
+                                    );
+                                  }).toList(),
                                 ),
-                              );
-                            }).toList(),
+                            ],
                           );
                         } else if (state is ReviewError) {
                           return Padding(
@@ -630,7 +748,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                         }
                         return const SizedBox();
                       },
-                    ),
+                    )
                   ],
                 ),
               ),
