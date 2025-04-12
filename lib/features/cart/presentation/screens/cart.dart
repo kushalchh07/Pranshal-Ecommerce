@@ -8,6 +8,7 @@ import '../../../home/presentation/screens/shimmer.dart';
 import '../blocs/cart_bloc/cart_bloc.dart';
 import '../blocs/cart_bloc/cart_event.dart';
 import '../blocs/cart_bloc/cart_state.dart';
+import 'cart_checkout_screen.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -282,6 +283,28 @@ class _CartScreenState extends State<CartScreen> {
                                                     true)
                                                 .toList();
                                             // Then process checkout with these items
+
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    CartCheckoutPage(
+                                                  selectedProductIds:
+                                                      selectedCartItems
+                                                          .map((item) =>
+                                                              item.productId)
+                                                          .toList(),
+                                                  isSelectAll: selectAll,
+                                                  totalAmount:
+                                                      _calculateTotalPrice(
+                                                              selectedCartItems)
+                                                          .toString(),
+                                                  cartItems: selectedCartItems,
+                                                  // totalAmount: _calculateTotalPrice(
+                                                  //     selectedCartItems),
+                                                ),
+                                              ),
+                                            );
                                           }
                                         : null,
                                 child: const Text(

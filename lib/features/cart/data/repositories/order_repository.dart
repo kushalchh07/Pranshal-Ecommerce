@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:pranshal_ecommerce/core/constants/strings.dart';
@@ -14,7 +15,7 @@ class OrderRepository {
           await _dio.post('/api/orders/place', data: order.toJson());
       return response.statusCode == 200;
     } catch (e) {
-      print("Error placing order: $e");
+      log("Error placing order: $e");
       return false;
     }
   }
@@ -29,7 +30,60 @@ class OrderRepository {
       });
       return response.statusCode == 200;
     } catch (e) {
-      print("Error placing cart order: $e");
+      log("Error placing cart order: $e");
+      return false;
+    }
+  }
+
+
+  Future<bool> placeFullCartOrder({
+    required int userId,
+    required String paymentMethod,
+    required String deliveryLocation,
+  }) async {
+    final response = await http.post(
+      Uri.parse('$baseUrl/api/orders/from-cart/all'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+        'user_id': userId,
+        'payment_method': paymentMethod,
+        'delivery_location': deliveryLocation,
+      }),
+    );
+
+    log('Response status: ${response.statusCode}');
+    log('Response body: ${response.body}');
+
+    return response.statusCode == 200;
+  }
+
+  Future<bool> placeSelectedCartOrder({
+    required int userId,
+    required List<int> productIds,
+    required String paymentMethod,
+    required String deliveryLocation,
+  }) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/api/orders/from-cart'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'user_id': userId,
+          'product_ids': productIds,
+          'payment_method': paymentMethod,
+          'delivery_location': deliveryLocation,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        log("Order placed successfully for user: $userId");
+        return true;
+      } else {
+        log("Failed to place order for user: $userId, Status Code: ${response.statusCode}");
+        return false;
+      }
+    } catch (e) {
+      log("Exception occurred while placing order for user: $userId, Error: $e");
       return false;
     }
   }

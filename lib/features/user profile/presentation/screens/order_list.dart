@@ -38,8 +38,11 @@ class OrderListScreen extends StatelessWidget {
                           pageIndex: 0,
                         ));
                   },
-                  child: const Text("Home",
-                      style: TextStyle(color: whiteColor, fontSize: 20))),
+                  child: const Padding(
+                    padding: const EdgeInsets.only(left: 4.0, top: 8),
+                    child: const Text("Home",
+                        style: TextStyle(color: whiteColor, fontSize: 20)),
+                  )),
           backgroundColor: isFromProfile ? whiteColor : primaryColor,
         ),
         body: BlocBuilder<FetchorderBloc, FetchorderState>(

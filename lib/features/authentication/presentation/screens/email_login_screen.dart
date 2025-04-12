@@ -367,11 +367,13 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                           )),
-                      onPressed: () async {
-                        // login();
+                      onPressed: 
+                      
+                      () async {
+                        login();
                         //as of now this setlogin status goes here otherwise, when the login successfull state is emitted then we set the login statuss to true.
-                        await setLoginStatus(true);
-                        Get.to(() => const Base());
+                        // await setLoginStatus(true);
+                        // Get.to(() => const Base());
                       },
                       child: const Row(
                         mainAxisAlignment: MainAxisAlignment.center,

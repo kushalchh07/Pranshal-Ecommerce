@@ -36,7 +36,7 @@ class OrderDetailScreen extends StatelessWidget {
               leading:
                   const Icon(Icons.monetization_on, color: Colors.blueAccent),
               title: const Text("Total Amount"),
-              subtitle: Text("\$${order.totalAmount.toStringAsFixed(2)}"),
+              subtitle: Text("\Rs.${order.totalAmount.toStringAsFixed(2)}"),
             ),
             ListTile(
               leading: const Icon(Icons.payment, color: Colors.blueAccent),

@@ -6,9 +6,28 @@ sealed class CartOrderEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
-class PlaceCartOrder extends CartOrderEvent {
+class PlaceSelectedCartOrder extends CartOrderEvent {
+  final int userId;
+  final List<int> productIds;
+  final String paymentMethod;
+  final String deliveryLocation;
+
+  PlaceSelectedCartOrder({
+    required this.userId,
+    required this.productIds,
+    required this.paymentMethod,
+    required this.deliveryLocation,
+  });
+}
+
+class PlaceFullCartOrder extends CartOrderEvent {
   final int userId;
   final String paymentMethod;
   final String deliveryLocation;
-const  PlaceCartOrder(this.userId, this.paymentMethod, this.deliveryLocation);
+
+  PlaceFullCartOrder({
+    required this.userId,
+    required this.paymentMethod,
+    required this.deliveryLocation,
+  });
 }
