@@ -8,35 +8,38 @@ class AuthenticationRepository {
   AuthenticationRepository();
 
   Future<Map<String, dynamic>> login(String email, String password) async {
-    log('login: $email $password');
+    log('Initiating login with email: $email');
 
     try {
+      log('Sending POST request to $loginUrl');
       final response = await http.post(
         Uri.parse(loginUrl),
         headers: {'Content-Type': 'application/json'},
         body: json.encode({
-          'email': email,
+          'email_address': email,
           'password': password,
         }),
       );
 
-      log('login response status: ${response.statusCode}');
-      log('login response body: ${response.body}');
+      log('Received response with status: ${response.statusCode}');
+      log('Response body: ${response.body}');
 
       if (response.statusCode == 200) {
-        return json.decode(response.body); // Successful login
+        log('Login successful');
+        return json.decode(response.body);
       } else {
+        log('Login failed with status code: ${response.statusCode}');
         throw Exception(
             'Login failed. Status code: ${response.statusCode}. Message: ${response.body}');
       }
     } catch (e) {
-      log('Error during login: $e');
+      log('Error during login process: $e');
       throw Exception('Error during login: $e');
     }
   }
 
   Future<Map<String, dynamic>> register(String username, String email,
-      String password, String phoneNumber) async {
+      String password, String phoneNumber,String otp) async {
     log('register: $username $email $password $phoneNumber');
 
     try {
@@ -44,10 +47,11 @@ class AuthenticationRepository {
         Uri.parse(registerUrl),
         headers: {'Content-Type': 'application/json'},
         body: json.encode({
-          'username': username,
-          'email': email,
+          'fullname': username,
+          'email_address': email,
           'password': password,
-          'phoneNumber': phoneNumber,
+          'contact_number': phoneNumber,
+          'otp':otp
         }),
       );
 

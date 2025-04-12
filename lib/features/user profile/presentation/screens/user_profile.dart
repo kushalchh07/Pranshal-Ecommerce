@@ -6,6 +6,7 @@ import 'package:get/route_manager.dart';
 import 'package:pranshal_ecommerce/features/user%20profile/presentation/screens/order_list.dart';
 import 'package:pranshal_ecommerce/features/user%20profile/presentation/screens/privacy_policy.dart';
 import 'package:pranshal_ecommerce/features/user%20profile/presentation/screens/terms_condiotions.dart';
+import 'package:pranshal_ecommerce/features/user%20profile/presentation/widgets/logout_dialog.dart';
 
 import '../../../../core/constants/colors.dart';
 import '../../../../core/constants/user_data.dart';
@@ -235,7 +236,7 @@ class _UserProfileState extends State<UserProfile> {
                             BlendMode.srcIn,
                           ),
                           height: 20), // Customize the icon
-                  trailing: NotificationToggle(
+                  trailing: const NotificationToggle(
                       //this is a custom widget
 
                       ),
@@ -243,7 +244,7 @@ class _UserProfileState extends State<UserProfile> {
                 CustomListTile(
                   tileName: 'Log Out',
                   ontap: () {
-                    Get.offAll(() => const LoginScreen());
+                    showLogoutDialog(context);
                   },
                   tileIcon: const Icon(Icons.logout),
                 ),

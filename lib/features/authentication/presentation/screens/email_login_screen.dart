@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/route_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -340,14 +341,25 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                 child: BlocConsumer<LoginBloc, LoginState>(
                   listener: (context, state) async {
                     if (state is LoginFailure) {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text(state.error),
-                      ));
+                      Fluttertoast.showToast(
+                        msg: 'Login Failed',
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                        backgroundColor: Colors.red,
+                        textColor: whiteColor,
+                      );
                     }
                     if (state is LoginSuccess) {
                       final SharedPreferences prefs =
                           await SharedPreferences.getInstance();
                       await prefs.setBool('isLoggedIn', true);
+                      Fluttertoast.showToast(
+                        msg: 'Login Successful',
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                        backgroundColor: Colors.green,
+                        textColor: whiteColor,
+                      );
                       Get.offAll(() => const Base());
                     }
                   },
@@ -367,9 +379,7 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                           )),
-                      onPressed: 
-                      
-                      () async {
+                      onPressed: () async {
                         login();
                         //as of now this setlogin status goes here otherwise, when the login successfull state is emitted then we set the login statuss to true.
                         // await setLoginStatus(true);

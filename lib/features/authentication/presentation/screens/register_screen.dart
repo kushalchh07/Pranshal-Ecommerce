@@ -3,6 +3,7 @@ import 'dart:math';
 import 'dart:developer' as developer;
 
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 import 'package:flutter/gestures.dart';
@@ -11,9 +12,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/cupertino.dart';
+import 'package:pranshal_ecommerce/features/authentication/presentation/bloc/register_bloc/bloc/register_bloc.dart';
+import 'package:pranshal_ecommerce/features/authentication/presentation/bloc/register_bloc/bloc/register_event.dart';
 
 import '../../../../core/constants/colors.dart';
+import '../../../base/presentation/screens/base.dart';
 import '../../../internet/data/bloc/internet_bloc.dart';
+import '../bloc/register_bloc/bloc/register_state.dart';
 import 'login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -45,7 +50,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
     newPasswordController.dispose();
   }
 
-  register() {}
+  register() {
+    if (_formKey.currentState!.validate()) {
+      FocusManager.instance.primaryFocus?.unfocus();
+      {
+        BlocProvider.of<RegisterBloc>(context).add(RegisterSubmitted(
+            email: emailController.text.trim(),
+            username: nameController.text.trim(),
+            phoneNumber: contactController.text.trim(),
+            otp: "1234",
+            password: confirmPasswordController.text.trim()));
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -391,29 +408,66 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 SizedBox(
                   height: 45,
                   width: Get.width * 0.8,
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                        backgroundColor: WidgetStatePropertyAll(primaryColor),
-                        elevation: const WidgetStatePropertyAll(0),
-                        shape: WidgetStatePropertyAll(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                        )),
-                    onPressed: () {},
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Register',
-                          style: TextStyle(
+                  child: BlocConsumer<RegisterBloc, RegisterState>(
+                    listener: (context, state) {
+                      // TODO: implement listener
+                      if (state is RegisterSuccess) {
+                        Fluttertoast.showToast(
+                          msg: 'Registered Successfully',
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.BOTTOM,
+                          backgroundColor: Colors.green,
+                          textColor: whiteColor,
+                        );
+                        Get.offAll(() => const Base());
+                      }
+                    },
+                    builder: (context, state) {
+                      if (state is RegisterLoading) {
+                        return ElevatedButton(
+                          style: ButtonStyle(
+                              backgroundColor:
+                                  WidgetStatePropertyAll(primaryColor),
+                              elevation: const WidgetStatePropertyAll(0),
+                              shape: WidgetStatePropertyAll(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                              )),
+                          onPressed: () {},
+                          child: const CupertinoActivityIndicator(
                             color: whiteColor,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
                           ),
+                        );
+                      }
+                      return ElevatedButton(
+                        style: ButtonStyle(
+                            backgroundColor:
+                                WidgetStatePropertyAll(primaryColor),
+                            elevation: const WidgetStatePropertyAll(0),
+                            shape: WidgetStatePropertyAll(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                            )),
+                        onPressed: () {
+                          register();
+                        },
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Register',
+                              style: TextStyle(
+                                color: whiteColor,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      );
+                    },
                   ),
                 ),
               ],
