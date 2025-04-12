@@ -542,7 +542,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
 
                                 final review = Review(
                                   productId: widget.product!.productId,
-                                  userId: 1, // replace with actual user ID
+                                  userId: userId, // replace with actual user ID
                                   userName: userName, // or actual user
                                   comment: _commentController.text,
                                   rating: _rating,
