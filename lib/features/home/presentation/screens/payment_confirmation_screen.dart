@@ -1,4 +1,8 @@
 import 'dart:developer';
+import 'package:esewa_flutter_sdk/esewa_config.dart';
+import 'package:esewa_flutter_sdk/esewa_flutter_sdk.dart';
+import 'package:esewa_flutter_sdk/esewa_payment.dart';
+import 'package:esewa_flutter_sdk/esewa_payment_success_result.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,6 +15,7 @@ import '../../../cart/data/models/order_cart_model.dart';
 import '../../data/models/home_model.dart';
 import '../blocs/order_bloc/order_bloc.dart';
 import 'map_location_picker.dart';
+import 'package:http/http.dart' as http;
 
 class PaymentConfirmationScreen extends StatefulWidget {
   final Product product;
@@ -94,10 +99,78 @@ class _PaymentConfirmationScreenState extends State<PaymentConfirmationScreen> {
         ],
       );
       log(order.toJson().toString());
-
+      payEsewa(order);
       // Trigger the OrderBloc event
-      context.read<OrderBloc>().add(PlaceSingleOrder(order));
     }
+  }
+
+  payEsewa(Order order) {
+    try {
+      EsewaFlutterSdk.initPayment(
+        esewaConfig: EsewaConfig(
+          environment: Environment.test,
+          //test ko lai
+
+          clientId: 'JB0BBQ4aD0UqIThFJwAKBgAXEUkEGQUBBAwdOgABHD4DChwUAB0R',
+          secretId: 'BhwIWQQADhIYSxILExMcAgFXFhcOBwAKBgAXEQ==',
+        ),
+        esewaPayment: EsewaPayment(
+          productId: widget.product.productId.toString(),
+          productName: widget.product.productName.toString(),
+          productPrice: widget.product.sellPrice.toString(),
+          callbackUrl: '',
+        ),
+        onPaymentSuccess: (EsewaPaymentSuccessResult data) async {
+          debugPrint(":::SUCCESS::: => $data");
+          verifyTransactionStatus(data, order);
+        },
+        onPaymentFailure: (data) {
+          debugPrint(":::FAILURE::: => $data");
+        },
+        onPaymentCancellation: (data) {
+          debugPrint(":::CANCELLATION::: => $data");
+        },
+      );
+    } on Exception catch (e) {
+      debugPrint("EXCEPTION : ${e.toString()}");
+    }
+  }
+
+  void verifyTransactionStatus(
+      EsewaPaymentSuccessResult result, Order order) async {
+    Map data = result.toJson();
+
+    var response = await callVerificationApi(data['refId']);
+    print("The Response Is: ${response.body}");
+    print("The Response Status Code Is: ${response.statusCode}");
+
+    if (response.statusCode.toString() == "200") {
+      context.read<OrderBloc>().add(PlaceSingleOrder(order));
+      // paymentSuccessAlert();
+    } else {
+      showDialog(
+          context: context,
+          builder: (context) => const AlertDialog(
+                content: Text('Verification Failed'),
+              ));
+    }
+  }
+
+  callVerificationApi(result) async {
+    print("TxnRefd Id: " + result);
+
+    var response = await http.get(
+      Uri.parse("https://esewa.com.np/mobile/transaction?txnRefId=$result"),
+      headers: {
+        'Content-Type': 'application/json',
+
+        // //test
+        'merchantSecret': 'BhwIWQQADhIYSxILExMcAgFXFhcOBwAKBgAXEQ==',
+        'merchantId': 'JB0BBQ4aD0UqIThFJwAKBgAXEUkEGQUBBAwdOgABHD4DChwUAB0R ',
+      },
+    );
+    print("Call Verification Api: ${response.statusCode}");
+    return response;
   }
 
   @override
@@ -129,7 +202,7 @@ class _PaymentConfirmationScreenState extends State<PaymentConfirmationScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Location Selection
-                    Text("Select Location",
+                    const Text("Select Location",
                         style: TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold)),
                     SizedBox(height: 10),
@@ -209,6 +282,23 @@ class _PaymentConfirmationScreenState extends State<PaymentConfirmationScreen> {
                         );
                       }).toList(),
                     ),
+                    SizedBox(height: 20),
+                    const Text(
+                      "Order Details:",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    Divider(color: Colors.grey.shade400),
+                    Text("Product Name: ${widget.product!.productName}",
+                        style: const TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.w500)),
+                    Text("Quantity: ${widget.quantity}",
+                        style: const TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.w500)),
+                    Text(
+                        "Total Amount: Rs. ${widget.product!.sellPrice * widget.quantity}",
+                        style: const TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.w500)),
                     Spacer(),
 
                     // Purchase Button
